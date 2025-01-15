@@ -9,6 +9,7 @@
     />
     <div v-else class="content">
       <template v-for="(block, index) in data.blocks" :key="index">
+      <h5>Test data</h5>
         <PageBlock
           :index="index"
           :block="block"
