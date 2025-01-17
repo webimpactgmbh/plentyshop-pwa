@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="visible" class="fixed bottom-6 right-6 z-50">
+    <div v-if="visible" class="fixed bottom-16 right-8 z-50">
       <a
         :href="whatsappLink"
         target="_blank"
