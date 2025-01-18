@@ -6,10 +6,10 @@
         "hero": [
           {
             "image": {
-              "lg": "https://cdn.webimpact.io/wp-content/uploads/slider/cache/bd32f9151ed939669b1858cb30cb6688/Titel_Teambild.webp",
-              "md": "https://cdn.webimpact.io/wp-content/uploads/slider/cache/bd32f9151ed939669b1858cb30cb6688/Titel_Teambild.webp",
-              "sm": "https://cdn.webimpact.io/wp-content/uploads/slider/cache/bd32f9151ed939669b1858cb30cb6688/Titel_Teambild.webp",
-              "xs": "https://cdn.webimpact.io/wp-content/uploads/slider/cache/bd32f9151ed939669b1858cb30cb6688/Titel_Teambild.webp"
+              "lg": "https://images.pexels.com/photos/12284840/pexels-photo-12284840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "md": "https://images.pexels.com/photos/12284840/pexels-photo-12284840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "sm": "https://images.pexels.com/photos/12284840/pexels-photo-12284840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "xs": "https://images.pexels.com/photos/12284840/pexels-photo-12284840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             },
             "tagline": "Deine Digital- und Webagentur!",
             "taglineColor": "#17263E",
