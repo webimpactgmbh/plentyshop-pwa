@@ -20,6 +20,23 @@
             "descriptionColor": "#17263E",
             "callToAction": "Jetzt entdecken",
             "link": "/gear/headphones-capybara_157"
+          },
+          {
+            "image": {
+              "lg": "https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "md": "https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "sm": "https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "xs": "https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            },
+            "tagline": "Deine Digital- und Webagentur!",
+            "taglineColor": "#17263E",
+            "heading": "Shops auf höchstem Niveau",
+            "headingColor": "#17263E",
+            "description": "Egal ob Webdesign, Datenmanagement oder E-Commerce. Wir unterstützen euch operativ mit unserer „hands on“ Mentalität oder entwickeln mit euch gemeinsam Strategien über Schulungen und Workshops.",
+            "alt": "Capybara-Kopfhörer",
+            "descriptionColor": "#17263E",
+            "callToAction": "Jetzt entdecken",
+            "link": "/gear/headphones-capybara_157"
           }
         ]
       }
@@ -27,8 +44,8 @@
     {
       "name": "UiMediaCard",
       "options": {
-        "text": "<div class='flex flex-col mt-5 sm:mt-20 mt-0 sm:p-0 p-5 text-center sm:text-left'><span class='text-xl font-bold mb-2'>Unsere PlentyONE Leistungen</span><h2 class='text-2xl font-semibold mb-4'>DeinePlentyONE Enterprise Agentur</h2><p class='typography-text-sm md:typography-text-lg mb-6 padding-right-desktop'>Als langjähriger PlentyONE Enterprise Partner unterstützen wir dich in allen Bereichen des umfangreichen ERP-Systems PlentyONE. Von der Bedarfsanalyse, über Systemeinrichtung, Schulungen, Prozessintegration, Marktplatzanbindungen oder Lagereinrichtungen: wir greifen Dir unter die Arme, wenn Du es brauchst.</p><ul class='list-disc list-inside typography-text-sm md:typography-text-lg '><li>Premium-Sound in Studioqualität</li><li>Elegant und formschön</li><li>Lange Akkulaufzeit</li><li>Kabellose Verbindung via Bluetooth</li></ul></div>",
-        "image": "https://cdn.webimpact.io/wp-content/uploads/2025/01/Agentur-Enterprise-242x140-1.svg",
+        "text": "<div class='flex flex-col  mt-5 sm:mt-20 mt-0 sm:p-0 p-5 text-center sm:text-left ml-64'><span class='text-2xl font-bold mb-2'>Unsere PlentyONE Leistungen</span><h2 class='text-2xl font-semibold mb-4'>DeinePlentyONE Enterprise Agentur</h2><p class='typography-text-sm md:typography-text-lg mb-6 padding-right-desktop'>Als langjähriger PlentyONE Enterprise Partner unterstützen wir dich in allen Bereichen des umfangreichen ERP-Systems PlentyONE. Von der Bedarfsanalyse, über Systemeinrichtung, Schulungen, Prozessintegration, Marktplatzanbindungen oder Lagereinrichtungen: wir greifen Dir unter die Arme, wenn Du es brauchst.</p><ul class='list-disc list-inside typography-text-sm md:typography-text-lg '><li>Premium-Sound in Studioqualität</li><li>Elegant und formschön</li><li>Lange Akkulaufzeit</li><li>Kabellose Verbindung via Bluetooth</li></ul></div>",
+        "image": "https://images.pexels.com/photos/220749/pexels-photo-220749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         "alt": "Headphones",
         "alignment": "left"
       }

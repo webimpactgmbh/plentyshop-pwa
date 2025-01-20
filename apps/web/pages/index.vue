@@ -7,8 +7,8 @@
       :block="currentBlock"
       @update="updateBlock"
     />
-    <div v-else class="content">
-    
+    <div v-else class="content relative max-w-screen-3xl mx-auto md:px-6 lg:px-10 mt-3 mb-10 group">
+      <MegaBanner />
       <template v-for="(block, index) in data.blocks" :key="index">
       
         <PageBlock
