@@ -7,10 +7,13 @@
       :block="currentBlock"
       @update="updateBlock"
     />
-    <div v-else class="content relative max-w-screen-3xl mx-auto md:px-6 lg:px-10 mt-3 mb-10 group">
-      <MegaBanner />
+    <div
+      v-else
+      class="content relative max-w-screen-3xl mx-auto md:px-6 lg:px-10 mt-3 mb-10 group"
+    >
+      <MegaBanner :displayDetails="JSON.stringify(homepageData?.megaMenu ?? [])" />
+
       <template v-for="(block, index) in data.blocks" :key="index">
-      
         <PageBlock
           :index="index"
           :block="block"
@@ -32,8 +35,29 @@
   </div>
 </template>
 <script lang="ts" setup>
-import homepageTemplateDataEn from '../composables/useHomepage/homepageTemplateDataEn.json';
-import homepageTemplateDataDe from '../composables/useHomepage/homepageTemplateDataDe.json';
+import homepageTemplateDataEn from "../composables/useHomepage/homepageTemplateDataEn.json";
+import homepageTemplateDataDe from "../composables/useHomepage/homepageTemplateDataDe.json";
+
+import { useCategoryTemplate } from "~/composables/useCategoryTemplate";
+
+const { fetchCategoryTemplate, data: categoryData } = useCategoryTemplate();
+fetchCategoryTemplate(44);
+
+const homepageData = computed(() => {
+
+  // Make sure we have a string to parse:
+  if (typeof categoryData.value?.data !== "string") {
+    return {};
+  }
+  try {
+    // Parse the entire JSON once:
+    const parsedData = JSON.parse(categoryData.value.data);
+    return parsedData;
+  } catch (err) {
+    console.error("Error parsing category data:", err);
+    return {};
+  }
+});
 
 const {
   currentBlock,
@@ -54,7 +78,9 @@ const { showNewsletter } = useNewsletter();
 const { $i18n } = useNuxtApp();
 
 const defaultAddBlock = (lang: string) => {
-  return lang === 'en' ? homepageTemplateDataEn.blocks[1] : homepageTemplateDataDe.blocks[1];
+  return lang === "en"
+    ? homepageTemplateDataEn.blocks[1]
+    : homepageTemplateDataDe.blocks[1];
 };
 
 const addNewBlock = (index: number, position: number) => {
@@ -69,10 +95,11 @@ const addNewBlock = (index: number, position: number) => {
 const { isEditing, disableActions } = useEditor();
 
 const getComponent = (name: string) => {
-  if (name === 'NewsletterSubscribe') return resolveComponent('NewsletterSubscribe');
-  if (name === 'UiHeroCarousel') return resolveComponent('UiHeroCarousel');
-  if (name === 'UiMediaCard') return resolveComponent('UiMediaCard');
-  if (name === 'ProductRecommendedProducts') return resolveComponent('ProductRecommendedProducts');
+  if (name === "NewsletterSubscribe") return resolveComponent("NewsletterSubscribe");
+  if (name === "UiHeroCarousel") return resolveComponent("UiHeroCarousel");
+  if (name === "UiMediaCard") return resolveComponent("UiMediaCard");
+  if (name === "ProductRecommendedProducts")
+    return resolveComponent("ProductRecommendedProducts");
 };
 
 fetchPageTemplate();

@@ -11,7 +11,7 @@
         reverse,
         titleClass,
         subtitleClass,
-      } in displayDetails"
+      } in displayDetailsProp"
       :key="image"
       :class="[
         'relative flex md:max-w-[1536px] md:[&:not(:first-of-type)]:flex-1 md:first-of-type:w-full',
@@ -56,36 +56,49 @@
 
 <script lang="ts" setup>
 import { SfButton } from '@storefront-ui/vue';
+import { computed, defineProps } from 'vue';
 
-const displayDetails = [
-  {
-    image: 'https://cdn02.plentymarkets.com/ecug9gl4m08u/frontend/assets/img/pwa/ball-chair-isolated-transparent-background_191095-12846-removebg-preview.png',
-    title: 'Futuristic Furniture Shop with webimpact',
-    subtitle: 'Be inspired',
-    description: 'We can make your design come true',
-    buttonText: 'Discover now',
-    reverse: false,
-    backgroundColor: 'bg-negative-200',
-    titleClass: 'md:typography-display-2',
-    subtitleClass: 'md:typography-headline-6',
-  },
-  {
-    image: 'https://cdn02.plentymarkets.com/ecug9gl4m08u/frontend/assets/img/pwa/png-indoor-plant-leaf-white-background-houseplant_53876-201098-removebg-preview.png',
-    title: 'Modern design with custom components',
-    subtitle: 'Take Control!',
-    description: 'Explore the components we can make for you!',
-    buttonText: 'Discover now',
-    reverse: true,
-    backgroundColor: 'bg-warning-200',
-  },
-  {
-    image: 'https://cdn02.plentymarkets.com/ecug9gl4m08u/frontend/assets/img/pwa/modern-chairs-with-wooden-table_53876-200730-removebg-preview.png',
-    title: '',
-    subtitle: '',
-    description: '',
-    buttonText: '',
-    reverse: false,
-    backgroundColor: 'bg-secondary-200',
-  },
-];
+const props = defineProps<{ displayDetails?: string }>();
+
+const displayDetailsProp = computed(() => {
+  try {
+    // If you always pass an array, parse it directly:
+    return props.displayDetails
+      ? JSON.parse(props.displayDetails)
+      :[
+      {
+        image: 'https://cdn02.plentymarkets.com/ecug9gl4m08u/frontend/assets/img/pwa/ball-chair-isolated-transparent-background_191095-12846-removebg-preview.png',
+        title: 'Futuristic Furniture Shop with webimpact',
+        subtitle: 'Be inspired',
+        description: 'We can make your design come true',
+        buttonText: 'Discover now',
+        reverse: false,
+        backgroundColor: 'bg-negative-200',
+        titleClass: 'md:typography-display-2',
+        subtitleClass: 'md:typography-headline-6',
+      },
+      {
+        image: 'https://cdn02.plentymarkets.com/ecug9gl4m08u/frontend/assets/img/pwa/png-indoor-plant-leaf-white-background-houseplant_53876-201098-removebg-preview.png',
+        title: 'Modern design with custom components',
+        subtitle: 'Take Control!',
+        description: 'Explore the components we can make for you!',
+        buttonText: 'Discover now',
+        reverse: true,
+        backgroundColor: 'bg-warning-200',
+      },
+      {
+        image: 'https://cdn02.plentymarkets.com/ecug9gl4m08u/frontend/assets/img/pwa/modern-chairs-with-wooden-table_53876-200730-removebg-preview.png',
+        title: '',
+        subtitle: '',
+        description: '',
+        buttonText: '',
+        reverse: false,
+        backgroundColor: 'bg-secondary-200',
+      },
+    ];
+  } catch (error) {
+    console.error('Error parsing displayDetails:', error);
+    return [];
+  }
+});
 </script>
