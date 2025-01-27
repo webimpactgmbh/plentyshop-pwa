@@ -1,21 +1,21 @@
 <template>
   <div
-    class=" mx-auto py-1 shadow-sm text-center bg-red-400 flex w-full h-100 flex-col md:flex-row text-white items-center justify-center md:justify-around"
+    class=" mx-auto py-1 shadow-sm text-center bg-orange-500 flex w-full h-100 flex-col md:flex-row text-white items-center justify-center"
   >
     <!-- Title -->
-    <h2
+    <span
       v-if="mergedConfig.enableTitle"
-      class="max-w-fit text-sm md:text-xl font-normal mr-4 w-full"
+      class="max-w-fit font-normal w-full"
     >
       {{ mergedConfig.title }}
-    </h2>
+    </span>
 
     <!-- The countdown units -->
-    <div class="flex justify-center space-x-6 items-center">
+    <div class="flex justify-center space-x-6 items-center pl-8">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
+        width="16"
+        height="16"
         viewBox="0 0 24 24"
         fill="none"
         stroke="#ffffff"
@@ -28,22 +28,22 @@
       </svg>
       <!-- Days -->
       <div class="flex flex-row items-center">
-        <div class="text-xl mr-2 md:text-1xl font-bold">{{ countdown.days }}</div>
+        <div class="mr-2 md:text-1xl font-bold">{{ countdown.days }}</div>
         <div class="text-sm">T</div>
       </div>
       <!-- Hours -->
       <div class="flex flex-row items-center">
-        <div class="text-xl md:text-1xl mr-2 font-bold">{{ countdown.hours }}</div>
+        <div class="md:text-1xl mr-2 font-bold">{{ countdown.hours }}</div>
         <div class="text-sm">H</div>
       </div>
       <!-- Minutes -->
       <div class="flex flex-row items-center">
-        <div class="text-xl md:text-1xl mr-2 font-bold">{{ countdown.minutes }}</div>
+        <div class="md:text-1xl mr-2 font-bold">{{ countdown.minutes }}</div>
         <div class="text-sm">M</div>
       </div>
       <!-- Seconds -->
       <div class="flex flex-row items-center">
-        <div class="text-xl md:text-1xl mr-2 font-bold">{{ countdown.seconds }}</div>
+        <div class="md:text-1xl mr-2 font-bold">{{ countdown.seconds }}</div>
         <div class="text-sm">S</div>
       </div>
     </div>
