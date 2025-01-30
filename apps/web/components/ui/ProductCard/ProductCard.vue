@@ -63,7 +63,7 @@
             {{ t('account.ordersAndReturns.orderDetails.priceFrom') }}
           </span>
           <span>{{ n(price, 'currency') }}</span>
-          <span v-if="showNetPrices">{{ t('asterisk') }} </span>
+          <span>{{ t('asterisk') }} </span>
         </span>
         <span v-if="crossedPrice" class="typography-text-sm text-neutral-500 line-through md:ml-3 md:pb-2">
           {{ n(crossedPrice, 'currency') }}
@@ -74,10 +74,10 @@
         size="sm"
         class="min-w-[80px] w-fit"
         data-testid="add-to-basket-short"
-        @click="addWithLoader(Number(productGetters.getId(product)))"
         :disabled="loading"
+        @click="addWithLoader(Number(productGetters.getId(product)))"
       >
-        <template #prefix v-if="!loading">
+        <template v-if="!loading" #prefix>
           <SfIconShoppingCart size="sm" />
         </template>
         <SfLoaderCircular v-if="loading" class="flex justify-center items-center" size="sm" />
@@ -126,8 +126,6 @@ const { addToCart } = useCart();
 const { price, crossedPrice } = useProductPrice(product);
 const { send } = useNotification();
 const loading = ref(false);
-
-const { showNetPrices } = useCustomer();
 
 const path = computed(() => productGetters.getCategoryUrlPath(product, categoryTree.value));
 const productSlug = computed(() => productGetters.getSlug(product) + `_${productGetters.getItemId(product)}`);

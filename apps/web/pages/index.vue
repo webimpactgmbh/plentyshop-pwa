@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EmptyBlock v-if="dataIsEmpty" @add-new-block="addNewBlock(0, 1)"></EmptyBlock>
+    <EmptyBlock v-if="dataIsEmpty" @add-new-block="addNewBlock(0, 1)" />
     <Editor
       v-if="isEditing && currentBlockIndex !== null"
       :index="currentBlockIndex"
@@ -22,11 +22,12 @@
           :is-clicked="isClicked"
           :clicked-block-index="clickedBlockIndex"
           :is-tablet="isTablet"
-          :show-newsletter="showNewsletter"
           :block-has-data="blockHasData"
           :get-component="getComponent"
           :tablet-edit="tabletEdit"
           :add-new-block="addNewBlock"
+          :change-block-position="changeBlockPosition"
+          :is-last-block="isLastBlock"
           :handle-edit="handleEdit"
           :delete-block="deleteBlock"
         />
@@ -73,10 +74,16 @@ const {
   updateBlock,
 } = useBlockManager();
 
-const { data, fetchPageTemplate, dataIsEmpty } = useHomepage();
-const { showNewsletter } = useNewsletter();
-const { $i18n } = useNuxtApp();
+const runtimeConfig = useRuntimeConfig();
+const isHero = ref(runtimeConfig.public.isHero);
+const showBlockList = ref(runtimeConfig.public.showBlocksNavigation);
 
+const { data, initialBlocks, fetchPageTemplate, dataIsEmpty } = useHomepage();
+const { $i18n } = useNuxtApp();
+const { isEditing, isEditingEnabled, disableActions } = useEditor();
+const { getRobots, setRobotForStaticPage } = useRobots();
+
+const { settingsIsDirty, openDrawerWithView } = useSiteConfiguration();
 const defaultAddBlock = (lang: string) => {
   return lang === "en"
     ? homepageTemplateDataEn.blocks[1]
@@ -84,22 +91,65 @@ const defaultAddBlock = (lang: string) => {
 };
 
 const addNewBlock = (index: number, position: number) => {
+  if (showBlockList.value) {
+    openDrawerWithView('blocks');
+  }
+
   const insertIndex = position === -1 ? index : index + 1;
   const updatedBlocks = [...data.value.blocks];
 
   updatedBlocks.splice(insertIndex, 0, defaultAddBlock($i18n.locale.value));
 
   data.value.blocks = updatedBlocks;
+
+  isEditingEnabled.value = !deepEqual(initialBlocks.value, data.value.blocks);
 };
 
-const { isEditing, disableActions } = useEditor();
+const changeBlockPosition = (index: number, position: number) => {
+  const updatedBlocks = [...data.value.blocks];
+  const newIndex = index + position;
+
+  if (newIndex < 0 || newIndex >= updatedBlocks.length) return;
+
+  const blockToChange = updatedBlocks.splice(index, 1)[0];
+  updatedBlocks.splice(newIndex, 0, blockToChange);
+
+  data.value.blocks = updatedBlocks;
+
+  isEditingEnabled.value = !deepEqual(initialBlocks.value, data.value.blocks);
+};
+
+const isLastBlock = (index: number) => index === data.value.blocks.length - 1;
 
 const getComponent = (name: string) => {
-  if (name === "NewsletterSubscribe") return resolveComponent("NewsletterSubscribe");
-  if (name === "UiHeroCarousel") return resolveComponent("UiHeroCarousel");
-  if (name === "UiMediaCard") return resolveComponent("UiMediaCard");
-  if (name === "ProductRecommendedProducts")
-    return resolveComponent("ProductRecommendedProducts");
+  if (name === 'NewsletterSubscribe') return resolveComponent('NewsletterSubscribe');
+  if (name === 'UiTextCard') return resolveComponent('UiTextCard');
+  if (name === 'UiImageText') return resolveComponent('UiImageText');
+  if (name === 'ProductRecommendedProducts') return resolveComponent('ProductRecommendedProducts');
+  if (name === 'UiCarousel') {
+    return isHero.value ? resolveComponent('UiHeroCarousel') : resolveComponent('UiBlazeCarousel');
+  }
+};
+
+await getRobots();
+setRobotForStaticPage('Homepage');
+
+onMounted(() => {
+  isEditingEnabled.value = false;
+  window.addEventListener('beforeunload', handleBeforeUnload);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', handleBeforeUnload);
+});
+
+const hasUnsavedChanges = () => {
+  return !isEditingEnabled.value && !settingsIsDirty.value;
+};
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  if (hasUnsavedChanges()) return;
+  event.preventDefault();
 };
 
 fetchPageTemplate();

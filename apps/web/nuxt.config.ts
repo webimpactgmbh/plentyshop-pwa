@@ -23,7 +23,6 @@ export default defineNuxtConfig({
     dirs: ['composables', 'composables/**', 'utils/**'],
   },
   css: ['~/assets/style.scss'],
-  // eslint-disable-next-line unicorn/expiring-todo-comments
   // TODO: build is consistently failing because of this. check whether we need pre-render check.
   nitro: {
     prerender: {
@@ -52,11 +51,6 @@ export default defineNuxtConfig({
       validateReturnReasons: process.env.VALIDATE_RETURN_REASONS === '1',
       enableQuickCheckoutTimer: process.env.ENABLE_QUICK_CHECKOUT_TIMER === '1',
       showConfigurationDrawer: process.env.SHOW_CONFIGURATION_DRAWER === '1',
-      primaryColor: process.env.PRIMARY || '#062633',
-      secondaryColor: process.env.SECONDARY || '#31687d',
-      newsletterForm: process.env.NEWSLETTERFORM === undefined ? true : process.env.NEWSLETTERFORM === 'true',
-      newsletterFormShowNames:
-        process.env?.NEWSLETTERFORMNAMES === undefined ? false : process.env.NEWSLETTERFORMNAMES === 'true',
       defaultItemsPerPage: Number(process.env.DEFAULT_FEEDBACK_ITEMS_PER_PAGE ?? 10),
       headerLogo: process.env.LOGO || '/images/logo.svg',
       homepageCategoryId: Number(process.env.HOMEPAGE) ?? null,
@@ -64,9 +58,16 @@ export default defineNuxtConfig({
       storename: process.env.STORENAME || 'PLENTYSYSTEMS AG',
       noCache: process.env.NO_CACHE || '',
       configId: process.env.CONFIG_ID || '',
+      isHero: process.env.IS_HERO === 'true',
+      font: 'Red Hat Text',
+      blockSize: 'm',
+      primaryColor: '#062633',
+      secondaryColor: '#31687d',
+      showBlocksNavigation: process.env.SHOW_BLOCKS_NAVIGATION === '1',
     },
   },
   modules: [
+    '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/test-utils/module',
     '@nuxtjs/google-fonts',
@@ -132,6 +133,7 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     configPath: '~/configuration/tailwind.config.ts',
+    exposeConfig: true,
   },
   turnstile: {
     siteKey: process.env?.TURNSTILESITEKEY,
@@ -140,7 +142,7 @@ export default defineNuxtConfig({
     breakpoints: {
       xs: 380,
       sm: 640,
-      md: 640,
+      md: 768,
       lg: 1024,
     },
     defaultBreakpoints: {
@@ -181,7 +183,6 @@ export default defineNuxtConfig({
       navigationPreload: true,
       runtimeCaching: [
         {
-          // @ts-ignore
           urlPattern: ({ request }) => request.mode === 'navigate',
           handler: 'NetworkOnly',
           options: {

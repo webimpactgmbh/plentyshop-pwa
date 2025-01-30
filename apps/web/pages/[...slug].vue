@@ -58,7 +58,7 @@ const breadcrumbs = computed(() => {
 
 watch(
   () => locale.value,
-  (changedLocale: any) => {
+  (changedLocale: string) => {
     router.push({
       path: buildCategoryLanguagePath(`${productsCatalog.value.languageUrls[changedLocale]}`),
       query: route.query,
@@ -84,11 +84,16 @@ const keywordsContent = computed((): string =>
     : process.env.METAKEYWORDS ?? '',
 );
 
+const robotsContent = computed((): string =>
+  productsCatalog.value?.category ? categoryGetters.getCategoryRobots(productsCatalog.value.category) : '',
+);
+
 useHead({
   title: headTitle,
   meta: [
     { name: 'description', content: descriptionContent },
     { name: 'keywords', content: keywordsContent },
+    { name: 'robots', content: robotsContent },
   ],
 });
 </script>

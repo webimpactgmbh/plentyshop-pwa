@@ -10,8 +10,8 @@
     :class="{ 'p-[0.5rem]': !isCloseButton }"
     class="m-2 border border-neutral-500 rounded-md"
     :disabled="wishlistLoading"
-    @click="onWishlistClick"
     data-testid="wishlist-trigger"
+    @click="onWishlistClick"
   >
     <SfLoaderCircular
       v-if="actionLoading"

@@ -14,11 +14,11 @@
           @edit="edit"
         />
         <UiButton
-          :data-testid="'save-address-' + type"
           v-else
-          @click="validateAndSubmitForm"
+          :data-testid="'save-address-' + type"
           :disabled="formIsLoading"
           variant="secondary"
+          @click="validateAndSubmitForm"
         >
           {{ t('saveAddress') }}
         </UiButton>
@@ -29,10 +29,10 @@
           :label="!editing && !showNewForm && !disabled ? t('editAddress') : ''"
         >
           <UiButton
-            @click="edit(checkoutAddress)"
             :disabled="formIsLoading || disabled"
             variant="secondary"
             :data-testid="'edit-address-' + type"
+            @click="edit(checkoutAddress)"
           >
             <template v-if="!editing && !showNewForm">{{ t('contactInfo.edit') }}</template>
             <SfIconClose v-else />
@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { SfIconClose, SfTooltip } from '@storefront-ui/vue';
-import { type AddressContainerProps } from './types';
+import type { AddressContainerProps } from './types';
 import { type Address, AddressType } from '@plentymarkets/shop-api';
 
 const { disabled = false, type } = defineProps<AddressContainerProps>();
@@ -78,7 +78,9 @@ const isShipping = type === AddressType.Shipping;
 const { checkoutAddress, hasCheckoutAddress } = useCheckoutAddress(type);
 const { isLoading: formIsLoading, addressToEdit, add: showNewForm, open: editing } = useAddressForm(type);
 const { shippingAsBilling } = useShippingAsBilling();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const addressFormShipping = ref(null as any);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const addressFormBilling = ref(null as any);
 
 const sameAsShippingAddress = computed(() =>

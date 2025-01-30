@@ -1,16 +1,28 @@
 <template>
+  
+  <UiToolbar v-if="isPreview" :style="`font-family: ${config.font}`" />
+  
   <client-only>
     <CountDown :timerConfig="JSON.stringify(countdownData)" />
   </client-only>
-  <Body class="font-body" :class="bodyClass" />
-  <UiNotifications />
-  <VitePwaManifest v-if="$pwa?.isPWAInstalled" />
-  <NuxtLoadingIndicator
+  
+  <div class="w-100 relative" :class="{ 'lg:flex': drawerOpen }">
+    <SiteConfigurationDrawer
+      v-if="drawerOpen"
+      class="sm:absolute lg:relative mr-3 bg-white"
+      :style="`font-family: ${config.font}`"
+    />
+
+    <div class="w-100 bg-white" :class="{ 'lg:w-3/4': drawerOpen }">
+      <Body class="font-body bg-editor-body-bg" :class="bodyClass" :style="currentFont" />
+      <UiNotifications />
+      <VitePwaManifest v-if="$pwa?.isPWAInstalled" />
+      <NuxtLoadingIndicator
     color="repeating-linear-gradient(to right, #008ebd 0%,#80dfff 50%,#e0f7ff 100%)"
   />
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
 
   <client-only>
     <WhatsappFloatingButton phoneNumber="+49 176 22573566" message="Hallo, " />
@@ -23,6 +35,8 @@
       text="<p class='text-3xl font-bold pb-16'>Modal Component!</p><p class='pb-5'>This is a simple modal plugin.</p><p class='max-w-lg text-1xl font-semibold leading-normal text-gray-900'>Implement this in your shop and more ! With us.</p>"
     />
   </client-only>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -34,6 +48,19 @@ const { setVsfLocale } = useLocalization();
 const route = useRoute();
 const { locale } = useI18n();
 const { setStaticPageMeta } = useCanonical();
+
+const { currentFont } = useSiteConfiguration();
+
+const isPreview = ref(false);
+const config = useRuntimeConfig().public;
+const showConfigurationDrawer = config.showConfigurationDrawer;
+
+const { drawerOpen } = useSiteConfiguration();
+
+onMounted(() => {
+  const pwaCookie = useCookie('pwa');
+  isPreview.value = !!pwaCookie.value || (showConfigurationDrawer as boolean);
+});
 
 await setInitialDataSSR();
 setVsfLocale(locale.value);

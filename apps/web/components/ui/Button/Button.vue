@@ -9,6 +9,7 @@
       variantClasses[variant],
     ]"
     data-testid="button"
+    aria-label="button"
   >
     <slot v-if="$slots.prefix" name="prefix" />
     <slot />
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type ConcreteComponent } from 'vue';
+import type { ConcreteComponent } from 'vue';
 import { useAttrsRef, SfButtonSize, SfButtonVariant } from '@storefront-ui/vue';
 
 const props = defineProps({

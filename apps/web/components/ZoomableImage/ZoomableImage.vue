@@ -10,7 +10,7 @@
       {{ $t('double-tap-zoom') }}
     </div>
 
-    <Drift v-if="!isMobile && imagesLoaded[`gallery-img-${index}`]" :index="index" :key="route.fullPath">
+    <Drift v-if="!isMobile && imagesLoaded[`gallery-img-${index}`]" :key="route.fullPath" :index="index">
       <NuxtImg
         v-bind="nuxtImgProps"
         @touchstart="onTouchStart"
@@ -85,7 +85,7 @@ const computedHeight = computed(() => {
   return imageUrl.includes(defaults.IMAGE_LINK_SUFIX) ? imageHeight : '';
 });
 
-const nuxtImgProps = computed<Record<string, any>>(() => ({
+const nuxtImgProps = computed<Record<string, unknown>>(() => ({
   id: `gallery-img-${index}`,
   alt: imageAlt,
   title: imageTitle,

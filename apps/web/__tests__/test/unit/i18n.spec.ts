@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { getLocaleObject } from '../../../configuration/locale.config'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const en = require('../../../lang/en.json')
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const de = require('../../../lang/de.json')
 
 describe('i18n', () => {
@@ -12,7 +14,7 @@ describe('i18n', () => {
     it('has values for all English keys', () => {
         const valuesEn: Array<string | object> = Object.values(en);
 
-        valuesEn.forEach(value => {
+        valuesEn.forEach((value) => {
             hasText(value);
         })
     });
@@ -20,7 +22,7 @@ describe('i18n', () => {
     it('has values for all German keys', () => {
         const valuesDe: Array<string | object> = Object.values(de);
 
-        valuesDe.forEach(value => {
+        valuesDe.forEach((value) => {
             hasText(value);
         })
     });
@@ -55,6 +57,7 @@ const hasAllKeys = (obj1: object, obj2: object)  => {
     expect(obj1Skeleton).toEqual(obj2Skeleton);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const setValuesToEmptyString = (obj: Record<string, any>) => {
     Object.keys(obj).forEach((key) => {
         if (isObject(obj[key]) && obj[key] !== null) {
@@ -68,7 +71,7 @@ const setValuesToEmptyString = (obj: Record<string, any>) => {
     return obj;
   }
 
-const isObject = (item: any) => {
+const isObject = (item: unknown) => {
     return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
@@ -76,7 +79,7 @@ const hasText = (value: string | object) => {
     if (isObject(value)) {
         expect(JSON.stringify(value)).not.toEqual('{}');
 
-        Object.values(value).forEach(childValue => {
+        Object.values(value).forEach((childValue) => {
             hasText(childValue);
         })
     }

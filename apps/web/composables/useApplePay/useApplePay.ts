@@ -1,5 +1,5 @@
 import { cartGetters, orderGetters } from '@plentymarkets/shop-api';
-import { ApplepayType, ConfigResponse } from '~/components/PayPal/types';
+import type { ApplepayType, ConfigResponse } from '~/components/PayPal/types';
 
 const loadExternalScript = async () => {
   return new Promise((resolve, reject) => {
@@ -39,6 +39,7 @@ export const useApplePay = () => {
       state.value.scriptLoaded = true;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     state.value.script = (script as any).Applepay() as ApplepayType;
     state.value.config = await state.value.script.config();
 

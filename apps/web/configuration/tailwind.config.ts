@@ -65,6 +65,9 @@ export default {
           '900': 'rgb(var(--colors-2-secondary-900) / <alpha-value>)',
           '950': 'rgb(var(--colors-2-secondary-950) / <alpha-value>)',
         },
+        editor: {
+          'body-bg': '#F1F3F5',
+        },
       },
       gridTemplateAreas: {
         'product-page': ['left-top right', 'left-bottom right'],
@@ -89,7 +92,14 @@ export default {
       width: {
         '128': '32rem',
       },
+      spacing: {
+        s: '1.875rem',
+        m: '2.5rem',
+        l: '3.125rem',
+        xl: '3.75rem',
+      },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [sfTypography, require('@savvywombat/tailwindcss-grid-areas')],
 } as Config;

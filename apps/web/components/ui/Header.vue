@@ -11,11 +11,11 @@
             variant="tertiary"
             square
             data-testid="open-languageselect-button"
-            @click="toggleLanguageSelect()"
             :disabled="
               (showConfigurationDrawer && isEditing) ||
               (showConfigurationDrawer && disableActions)
             "
+            @click="toggleLanguageSelect()"
           >
             <template #prefix>
               <SfIconLanguage class="relative" />
@@ -81,8 +81,8 @@
               variant="tertiary"
               class="relative text-white hover:text-white active:text-white  rounded-md"
               :class="{ 'bg-primary-700': isAccountDropdownOpen }"
-              @click="accountDropdownToggle()"
               data-testid="account-dropdown-button"
+              @click="accountDropdownToggle()"
             >
               <template #prefix>
                 <SfIconPerson />
@@ -127,6 +127,7 @@
           variant="tertiary"
           :aria-label="t('auth.login.openLoginForm')"
           square
+          @click="navigateToLogin"
         >
           <svg
             width="35"
@@ -196,11 +197,11 @@
         square
         data-testid="open-languageselect-button"
         :aria-label="t('languageSelector')"
-        @click="toggleLanguageSelect()"
         :disabled="
           (showConfigurationDrawer && isEditing) ||
           (showConfigurationDrawer && disableActions)
         "
+        @click="toggleLanguageSelect()"
       >
         <SfIconLanguage />
       </UiButton>
@@ -208,8 +209,8 @@
         variant="tertiary"
         class="relative text-white hover:text-white active:text-white  rounded-md md:hidden"
         square
-        @click="searchModalOpen"
         :aria-label="t('openSearchModalButtonLabel')"
+        @click="searchModalOpen"
       >
         <SfIconSearch />
       </UiButton>
@@ -274,7 +275,6 @@
       <UiSearch :close="searchModalClose" />
     </SfModal>
   </NuxtLazyHydrate>
-  <LazyConfigurationDrawer v-if="showConfigurationDrawer" />
 </template>
 
 <script setup lang="ts">
@@ -286,7 +286,6 @@ import {
   SfIconPerson,
   SfIconSearch,
   SfIconShoppingCart,
-  SfIconTune,
   SfListItem,
   SfModal,
   SfIconFavorite,
@@ -315,7 +314,6 @@ const {
   isOpen: isSearchModalOpen,
   close: searchModalClose,
 } = useDisclosure();
-const { open } = useConfigurationDrawer();
 const { toggle: toggleLanguageSelect, isOpen: isLanguageSelectOpen } = useLocalization();
 const { data: categoryTree } = useCategoryTree();
 const { data: user, isAuthorized, logout } = useCustomer();
