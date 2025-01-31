@@ -56,34 +56,7 @@
         >
           <SfIconPerson />
         </UiButton>
-        <template v-if="localeCodes.length > 1">
-          <UiButton
-            v-if="!isLanguageSelectOpen"
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
-            :aria-label="t('languageSelector')"
-            variant="tertiary"
-            square
-            data-testid="open-languageselect-button"
-            :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
-            @click="toggleLanguageSelect()"
-          >
-            <template #prefix>
-              <SfIconLanguage class="relative" />
-            </template>
-          </UiButton>
-          <UiButton
-            v-else
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
-            :aria-label="t('languageSelector')"
-            variant="tertiary"
-            square
-            data-testid="open-languageselect-button"
-          >
-            <template #prefix>
-              <SfIconLanguage class="relative" />
-            </template>
-          </UiButton>
-        </template>
+
         <UiButton
           class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           :tag="NuxtLink"
@@ -131,17 +104,6 @@
         variant="tertiary"
         class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md md:hidden"
         square
-        data-testid="open-languageselect-button"
-        :aria-label="t('languageSelector')"
-        :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
-        @click="toggleLanguageSelect()"
-      >
-        <SfIconLanguage />
-      </UiButton>
-      <UiButton
-        variant="tertiary"
-        class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md md:hidden"
-        square
         :aria-label="t('openSearchModalButtonLabel')"
         @click="searchModalOpen"
       >
@@ -149,7 +111,6 @@
       </UiButton>
     </div>
   </WIMegaMenu>
-  <LanguageSelector />
   <UiModal
     v-if="viewport.isGreaterOrEquals('md') && isAuthenticationOpen"
     v-model="isAuthenticationOpen"
@@ -197,7 +158,7 @@
           <div v-if="isSearchModalOpen" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
             <div class="relative bg-white p-6 rounded-lg max-w-lg w-full">
               <header class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-black">{{ t('search') }}</h3>
+                <h3 class="text-lg font-semibold text-black">{{ t('productSearchModal') }}</h3>
                 <UiButton square variant="tertiary" @click="searchModalClose">
                   <SfIconClose class="text-black" />
                 </UiButton>
@@ -228,7 +189,6 @@ import {
   SfIconFavorite,
   useDisclosure,
 } from '@storefront-ui/vue';
-import LanguageSelector from '~/components/LanguageSelector/LanguageSelector.vue';
 import { paths } from '~/utils/paths';
 import WIMegaMenu from '~/components/ui/WIMegaMeu/WIMegaMenu.vue';
 

@@ -26,7 +26,7 @@
       </div>
 
     <div v-if="viewport.isGreaterOrEquals('lg')">
-      <nav ref="floatingRef">
+      <nav ref="navRef" class="relative w-full">
         <ul
           class="flex px-6 py-2 bg-white border-b border-b-neutral-200 border-b-solid"
           @blur="
@@ -45,7 +45,10 @@
                 ref="triggerReference"
                 variant="tertiary"
                 data-testid="category-button"
-                class="group mr-2 !text-neutral-900 hover:!bg-neutral-200 hover:!text-neutral-700 active:!bg-neutral-300 active:!text-neutral-900"
+                :class="{
+    'group mr-2 !text-neutral-900 hover:!bg-neutral-200 hover:!text-neutral-700 active:!bg-neutral-300 active:!text-neutral-900': true,
+    '!bg-neutral-300 !text-neutral-900': activeNode.includes(menuNode.id),
+  }"
                 @mouseenter="menuNode.childCount > 0 ? openMenu([menuNode.id]) : openMenu([])"
                 @click="menuNode.childCount > 0 ? openMenu([menuNode.id]) : openMenu([])"
               >
@@ -55,25 +58,21 @@
                   class="rotate-90 text-neutral-500 group-hover:text-neutral-700 group-active:text-neutral-900"
                 />
               </UiButton>
+
             </NuxtLink>
 
             <div
-              v-if="
-                isOpen &&
-                activeMenu &&
-                activeNode.length === 1 &&
-                activeNode[0] === menuNode.id &&
-                menuNode.childCount > 0
-              "
-              :key="activeMenu.id"
+              v-if="isOpen && activeMenu && activeNode.length === 1 && activeNode[0] === menuNode.id && menuNode.childCount > 0"
               ref="megaMenuReference"
-              :style="style"
-              class="hidden md:grid gap-x-6 grid-cols-4 bg-white shadow-lg p-6 left-0 right-0 outline-none z-40"
+              class="hidden md:grid gap-x-6 grid-cols-4 bg-white shadow-lg p-6 absolute left-0 right-0 w-full max-w-[865px] mx-auto"
+              :style="submenuStyle"
               tabindex="0"
               @mouseleave="close()"
               @keydown.esc="focusTrigger(index)"
             >
-              <template v-for="node in activeMenu.children" :key="node.id">
+
+
+            <template v-for="node in activeMenu.children" :key="node.id">
                 <template v-if="node.childCount === 0">
                   <ul>
                     <SfListItem
@@ -207,7 +206,7 @@ const { close, open, isOpen, activeNode, category, setCategory } = useMegaMenu()
 const { referenceRef, floatingRef, style } = useDropdown({
   isOpen,
   onClose: close,
-  placement: 'bottom-start',
+  placement: 'bottom',
   middleware: [],
 });
 const categoryTree = ref(categoryTreeGetters.getTree(props.categories));
@@ -228,6 +227,31 @@ const generateCategoryLink = (category: CategoryTreeItem) => {
 const drawerReference = ref();
 const megaMenuReference = ref();
 const triggerReference = ref();
+
+const navRef = ref<HTMLElement | null>(null);
+const submenuRef = ref<HTMLElement | null>(null);
+const submenuStyle = ref({ width: "auto", left: "0px" });
+
+const updateSubmenuPosition = () => {
+  if (navRef.value && submenuRef.value) {
+    const navRect = navRef.value.getBoundingClientRect();
+
+    submenuStyle.value = {
+      width: `${navRect.width}px`,
+      left: `${navRect.left}px`,
+    };
+  }
+};
+
+onMounted(() => {
+  updateSubmenuPosition();
+  window.addEventListener("resize", updateSubmenuPosition);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateSubmenuPosition);
+});
+
 
 const activeMenu = computed(() => (category.value ? findNode(activeNode.value, category.value) : null));
 
