@@ -1,5 +1,5 @@
 <template>
-  <WIMegaMenu :categories="categoryTree">
+  <WiMegaMenu :categories="categoryTree">
     <template v-if="viewport.isGreaterOrEquals('md')">
       <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
         <UiButton
@@ -78,19 +78,23 @@
           </template>
         </UiButton>
         <UiButton
-          class="group relative flex items-center gap-1 text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-2xl px-3 py-2"
+          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           :tag="NuxtLink"
           :to="localePath(paths.cart)"
           :aria-label="t('numberInCart', { count: cartItemsCount })"
           variant="tertiary"
+          square
         >
-          <SfIconShoppingCart class="text-white w-5 h-5" />
-
-          <div
-            class="text-white font-bold flex items-center justify-center px-1 py-1 text-xs rounded-full min-w-[10px] border-none outline-none shadow-none"
-          >
-            {{ cartItemsCount }}
-          </div>
+          <template #prefix>
+            <SfIconShoppingCart />
+            <SfBadge
+              :content="cartItemsCount"
+              class="outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+              data-testid="cart-badge"
+              placement="top-right"
+              :max="99"
+            />
+          </template>
         </UiButton>
       </nav>
     </template>
@@ -106,7 +110,7 @@
         <SfIconSearch />
       </UiButton>
     </div>
-  </WIMegaMenu>
+  </WiMegaMenu>
   <UiModal
     v-if="viewport.isGreaterOrEquals('md') && isAuthenticationOpen"
     v-model="isAuthenticationOpen"
@@ -186,7 +190,7 @@ import {
   useDisclosure,
 } from '@storefront-ui/vue';
 import { paths } from '~/utils/paths';
-import WIMegaMenu from '~/components/ui/WIMegaMeu/WIMegaMenu.vue';
+import WiMegaMenu from '~/components/ui/WiMegaMeu/WiMegaMenu.vue';
 
 const isLogin = ref(true);
 const { data: cart } = useCart();

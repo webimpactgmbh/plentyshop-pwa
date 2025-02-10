@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from "vue";
-import WILanguageSelector from '~/components/ui/WILanguageSelector/WILanguageSelector.vue';
+import WILanguageSelector from '~/components/ui/WiLanguageSelector/WiLanguageSelector.vue';
 
 const props = defineProps<{ promoMessages: string[] }>();
 

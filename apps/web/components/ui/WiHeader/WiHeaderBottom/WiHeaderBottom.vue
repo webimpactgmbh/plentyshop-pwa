@@ -2,7 +2,7 @@
   <MegaMenu :categories="categoryTree">
     <template v-if="viewport.isGreaterOrEquals('md')">
       <div class="flex items-center flex-2">
-        <UiWISearch class="hidden md:block w-full md:w-[300px] max-w-[90vw]" />
+        <WiSearch class="hidden md:block w-full md:w-[300px] max-w-[90vw]" />
         <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
           <SfDropdown v-if="isAuthorized" v-model="isAccountDropdownOpen" placement="bottom-end" class="z-50">
             <template #trigger>
@@ -158,6 +158,7 @@ import {
 } from '@storefront-ui/vue';
 import LanguageSelector from '~/components/LanguageSelector/LanguageSelector.vue';
 import { paths } from '~/utils/paths';
+import WiSearch from '~/components/ui/WiSearch/WiSearch.vue';
 
 const isLogin = ref(true);
 const { data: cart } = useCart();

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <WIPromoBar :promo-messages="homepageData?.promoMessages || []" />
+    <WiPromoBar :promo-messages="homepageData?.promoMessages || []" />
     <component :is="headerComponent" v-if="headerComponent" />
     <NarrowContainer v-if="breadcrumbs?.length" class="p-4 md:px-0">
       <LazyUiBreadcrumbs :breadcrumbs="breadcrumbs" />
@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { ref, defineAsyncComponent, watchEffect } from "vue";
 import type { DefaultLayoutProps } from '~/layouts/types';
-import WIPromoBar from '~/components/ui/WIPromoBar/WIPromoBar.vue';
+import WiPromoBar from '~/components/ui/WiPromoBar/WiPromoBar.vue';
 import { useCategoryData } from "~/composables/useCategoryData/useCategoryData";
 const { homepageData } = useCategoryData(45);
 const { homepageData: headerConfigData } = useCategoryData(99);
@@ -34,13 +34,14 @@ watchEffect(() => {
 
   switch (headerType) {
     case "header_top":
-      headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WIHeader/WIHeaderTop/WiHeaderTop.vue"));
+      headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WiHeader/WiHeaderTop/WiHeaderTop.vue"));
       break;
     case "header_bottom":
-      headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WIHeader/WiHeaderBottom/WiHeaderBottom.vue"));
+      headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WiHeader/WiHeaderBottom/WiHeaderBottom.vue"));
       break;
     default:
-      headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WIHeader/WIHeaderTop/WiHeaderTop.vue"));
+      headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WiHeader/WiHeaderBottom/WiHeaderBottom.vue"));
+    //headerComponent.value = defineAsyncComponent(() => import("~/components/ui/WiHeader/WiHeaderTop/WiHeaderTop.vue"));
   }
 });
 
