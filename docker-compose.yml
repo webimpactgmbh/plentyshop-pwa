@@ -8,14 +8,15 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"  # Nuxt.js App
-      - "2222:22"    # SSH Zugriff auf Container
+      - "8181:8181"  # API-Server
+      - "2222:22"    # SSH Zugriff
     volumes:
       - .:/app
       - /app/node_modules
       - /app/apps/web/node_modules
+      - /app/apps/server/node_modules
     environment:
       - NODE_ENV=development
     env_file:
       - .env
       - apps/web/.env
-    command: yarn workspace web dev
