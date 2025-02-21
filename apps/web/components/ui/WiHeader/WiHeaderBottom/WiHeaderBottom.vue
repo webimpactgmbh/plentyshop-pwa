@@ -1,56 +1,43 @@
 <template>
-  <MegaMenu :categories="categoryTree">
+  <MegaMenu :categories="categoryTree" :isTransparent="isTransparent">
     <template v-if="viewport.isGreaterOrEquals('md')">
       <div class="flex items-center flex-2">
         <WiSearch class="hidden md:block w-full md:w-[300px] max-w-[90vw]" />
-        <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
+        <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap space-x-1">
           <SfDropdown v-if="isAuthorized" v-model="isAccountDropdownOpen" placement="bottom-end" class="z-50">
             <template #trigger>
               <UiButton
                 variant="tertiary"
-                class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md"
+                class="relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-200 ease-in-out p-3 icon-border"
                 :class="{ 'bg-primary-700': isAccountDropdownOpen }"
                 data-testid="account-dropdown-button"
                 @click="accountDropdownToggle()"
               >
                 <template #prefix>
-                  <SfIconPerson />
+                  <SfIconPerson class="w-7 h-7" />
                 </template>
                 {{ user.user?.firstName }}
               </UiButton>
             </template>
-            <ul class="rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
-              <li v-for="({ label, link }, labelIndex) in accountDropdown" :key="`label-${labelIndex}`">
-                <template v-if="label === t('account.logout')">
-                  <UiDivider class="my-2" />
-                  <SfListItem tag="button" class="text-left" data-testid="account-dropdown-logout-item" @click="logOut()">
-                    {{ label }}
-                  </SfListItem>
-                </template>
-                <SfListItem
-                  v-else
-                  :tag="NuxtLink"
-                  :to="link"
-                  :class="{ 'bg-neutral-200': route.path === link }"
-                  data-testid="account-dropdown-list-item"
-                >
-                  {{ label }}
-                </SfListItem>
-              </li>
-            </ul>
           </SfDropdown>
+
           <UiButton
             v-else
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+            class="group relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-200 ease-in-out p-3 icon-border"
+            :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
             variant="tertiary"
             :aria-label="t('auth.login.openLoginForm')"
             square
             @click="navigateToLogin"
           >
-            <SfIconPerson />
+            <SfIconPerson class="w-7 h-7" />
           </UiButton>
+
           <UiButton
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+            class="group relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-200 ease-in-out p-3 icon-border"
+            :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
             :tag="NuxtLink"
             :to="localePath(paths.wishlist)"
             :aria-label="t('numberInWishlist', { count: wishlistItemIds.length })"
@@ -59,27 +46,33 @@
             data-testid="wishlist-page-navigation"
           >
             <template #prefix>
-              <SfIconFavorite />
+              <SfIconFavorite class="w-7 h-7" />
               <SfBadge
+                v-if="wishlistItemIds.length > 0"
                 :content="wishlistItemIds.length"
                 class="outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+                :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
                 data-testid="wishlist-badge"
                 placement="top-right"
                 :max="99"
               />
             </template>
           </UiButton>
+
           <UiButton
-            class="group relative flex items-center gap-1 text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-2xl px-3 py-2"
+            class="group relative flex items-center gap-1 text-black hover:text-white hover:bg-orange-500 transition-colors duration-200 ease-in-out p-2 pl-6 pr-6 icon-border"
+            :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
             :tag="NuxtLink"
             :to="localePath(paths.cart)"
             :aria-label="t('numberInCart', { count: cartItemsCount })"
             variant="tertiary"
           >
-            <SfIconShoppingCart class="text-white w-5 h-5" />
-
+            <SfIconShoppingCart class="w-7 h-7" />
             <div
-              class="text-white font-bold flex items-center justify-center px-1 py-1 text-xs rounded-full min-w-[10px] border-none outline-none shadow-none"
+              class="text-black group-hover:text-white font-bold flex items-center justify-center text-lg min-w-[15px] border-none outline-none shadow-none icon-border"
+              :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
             >
               {{ cartItemsCount }}
             </div>
@@ -91,7 +84,7 @@
     <div v-if="viewport.isLessThan('lg')">
       <UiButton
         variant="tertiary"
-        class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md md:hidden"
+        class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 md:hidden icon-border"
         square
         :aria-label="t('openSearchModalButtonLabel')"
         @click="searchModalOpen"
@@ -179,6 +172,9 @@ const viewport = useViewport();
 const runtimeConfig = useRuntimeConfig();
 const showConfigurationDrawer = runtimeConfig.public.showConfigurationDrawer;
 const { isEditing, disableActions } = useEditor();
+const props = defineProps<{
+  isTransparent?: boolean
+}>();
 
 onNuxtReady(() => {
   cartItemsCount.value = cart.value?.items?.reduce((price, { quantity }) => price + quantity, 0) ?? 0;

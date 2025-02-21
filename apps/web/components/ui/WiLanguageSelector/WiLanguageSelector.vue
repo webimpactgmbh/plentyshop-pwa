@@ -1,9 +1,9 @@
 <template>
   <div class="relative">
   <div v-if="localeCodes.length > 1" class="relative">
-    <button class="dropdown-btn flex items-center border border-gray-300 bg-white px-2 py-1 rounded-md hover:bg-gray-100" @click="toggleDropdown">
+    <button class="dropdown-btn flex items-center px-2 py-1 rounded-md " @click="toggleDropdown">
       <div class="flag-icon w-5 h-4" v-html="flagList[currentLocale]" />
-      <svg class="chevron-icon w-4 h-4 ml-1 transition-transform duration-200" :class="{ 'rotate-180': isOpen }"
+      <svg class="chevron-icon w-4 h-4 ml-1 mb-1 transition-transform duration-200" :class="{ 'rotate-180': isOpen }"
            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd"
               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -70,5 +70,4 @@ const selectLanguage = (locale: string) => {
 .dropdown-item span {
   cursor: pointer;
 }
-
 </style>

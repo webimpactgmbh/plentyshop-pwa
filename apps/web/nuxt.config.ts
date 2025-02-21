@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['composables', 'composables/**', 'utils/**'],
   },
-  css: ['~/assets/style.scss'],
+  css: ['~/assets/style.scss', '~/assets/custom.scss'],
   // TODO: build is consistently failing because of this. check whether we need pre-render check.
   nitro: {
     prerender: {

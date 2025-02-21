@@ -1,64 +1,52 @@
 <template>
-  <WiMegaMenu :categories="categoryTree">
+  <WiMegaMenu :categories="categoryTree" :is-transparent="isTransparent" >
     <template v-if="viewport.isGreaterOrEquals('md')">
-      <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
+      <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap space-x-1">
         <UiButton
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
+          v-if="!isSearchVisible"
+          class="group relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-500 ease-in-out p-3 cursor-pointer icon-border"
+          :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
           variant="tertiary"
           :aria-label="t('openSearchModalButtonLabel')"
-          @click="searchModalOpen"
         >
-          <SfIconSearch />
-
+          <SfIconSearch   @click="toggleSearch"  class="w-7 h-7" />
         </UiButton>
+        <transition name="fade">
+          <WiSearch v-show="isSearchVisible" class="absolute top-0 left-0 w-full md:w-[200px] max-w-[90vw] z-50 mt-2" />
+        </transition>
         <SfDropdown v-if="isAuthorized" v-model="isAccountDropdownOpen" placement="bottom-end" class="z-50">
           <template #trigger>
             <UiButton
               variant="tertiary"
-              class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md"
+              class="relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-500 ease-in-out p-3 icon-border"
               :class="{ 'bg-primary-700': isAccountDropdownOpen }"
               data-testid="account-dropdown-button"
               @click="accountDropdownToggle()"
             >
               <template #prefix>
-                <SfIconPerson />
+                <SfIconPerson class="w-7 h-7" />
               </template>
               {{ user.user?.firstName }}
             </UiButton>
           </template>
-          <ul class="rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
-            <li v-for="({ label, link }, labelIndex) in accountDropdown" :key="`label-${labelIndex}`">
-              <template v-if="label === t('account.logout')">
-                <UiDivider class="my-2" />
-                <SfListItem tag="button" class="text-left" data-testid="account-dropdown-logout-item" @click="logOut()">
-                  {{ label }}
-                </SfListItem>
-              </template>
-              <SfListItem
-                v-else
-                :tag="NuxtLink"
-                :to="link"
-                :class="{ 'bg-neutral-200': route.path === link }"
-                data-testid="account-dropdown-list-item"
-              >
-                {{ label }}
-              </SfListItem>
-            </li>
-          </ul>
         </SfDropdown>
+
         <UiButton
           v-else
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="group relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-500 ease-in-out p-3 icon-border"
+          :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
           variant="tertiary"
           :aria-label="t('auth.login.openLoginForm')"
           square
           @click="navigateToLogin"
         >
-          <SfIconPerson />
+          <SfIconPerson class="w-7 h-7" />
         </UiButton>
 
         <UiButton
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="group relative text-black hover:text-white hover:bg-orange-500 transition-colors duration-500 ease-in-out p-3  icon-border"
+          :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
           :tag="NuxtLink"
           :to="localePath(paths.wishlist)"
           :aria-label="t('numberInWishlist', { count: wishlistItemIds.length })"
@@ -67,8 +55,9 @@
           data-testid="wishlist-page-navigation"
         >
           <template #prefix>
-            <SfIconFavorite />
+            <SfIconFavorite class="w-7 h-7" />
             <SfBadge
+              v-if="wishlistItemIds.length > 0"
               :content="wishlistItemIds.length"
               class="outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
               data-testid="wishlist-badge"
@@ -77,35 +66,27 @@
             />
           </template>
         </UiButton>
+
         <UiButton
-          class="group relative flex items-center gap-1 text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-2xl px-3 py-2"
+          class="group relative flex items-center gap-1 text-black hover:text-white hover:bg-orange-500 transition-colors duration-500 ease-in-out p-2 pl-6 pr-6 icon-border"
+          :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
           :tag="NuxtLink"
           :to="localePath(paths.cart)"
           :aria-label="t('numberInCart', { count: cartItemsCount })"
           variant="tertiary"
         >
-          <SfIconShoppingCart class="text-white w-5 h-5" />
-
+          <SfIconShoppingCart class="w-7 h-7" />
           <div
-            class="text-white font-bold flex items-center justify-center px-1 py-1 text-xs rounded-full min-w-[10px] border-none outline-none shadow-none"
+            class="text-black group-hover:text-white font-bold flex items-center justify-center text-lg min-w-[15px] border-none outline-none shadow-none"
+            :class="[{ 'text-black hover:text-white ': !isTransparent, 'text-white hover:text-black ': isTransparent }]"
+
           >
             {{ cartItemsCount }}
           </div>
         </UiButton>
       </nav>
     </template>
-
-    <div v-if="viewport.isLessThan('lg')">
-      <UiButton
-        variant="tertiary"
-        class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md md:hidden"
-        square
-        :aria-label="t('openSearchModalButtonLabel')"
-        @click="searchModalOpen"
-      >
-        <SfIconSearch />
-      </UiButton>
-    </div>
   </WiMegaMenu>
   <UiModal
     v-if="viewport.isGreaterOrEquals('md') && isAuthenticationOpen"
@@ -128,65 +109,26 @@
     <Register v-else :is-modal="true" @change-view="isLogin = true" @registered="closeAuthentication" />
   </UiModal>
 
-  <template>
-    <div>
-      <NuxtLazyHydrate v-if="viewport.isLessThan('lg')" when-idle>
-        <SfModal
-          v-model="isSearchModalOpen"
-          class="w-full h-full z-50"
-          tag="section"
-          role="dialog"
-          aria-labelledby="search-modal-title"
-        >
-          <header class="mb-4">
-            <UiButton square variant="tertiary" class="absolute right-4 top-2" @click="searchModalClose">
-              <SfIconClose class="text-neutral-500" />
-            </UiButton>
-            <h3 id="search-modal-title" class="absolute left-6 top-4 font-bold typography-headline-4 mb-4">
-              {{ t('search') }}
-            </h3>
-          </header>
-          <UiSearch :close="searchModalClose" />
-        </SfModal>
-      </NuxtLazyHydrate>
-      <NuxtLazyHydrate v-else when-idle>
-        <transition name="fade-overlay">
-          <div v-if="isSearchModalOpen" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
-            <div class="relative bg-white p-6 rounded-lg max-w-lg w-full">
-              <header class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-black">{{ t('productSearchModal') }}</h3>
-                <UiButton square variant="tertiary" @click="searchModalClose">
-                  <SfIconClose class="text-black" />
-                </UiButton>
-              </header>
-              <UiSearch :close="searchModalClose" />
-            </div>
-          </div>
-        </transition>
-
-      </NuxtLazyHydrate>
-    </div>
-  </template>
-
-
 </template>
+
 
 <script setup lang="ts">
 import {
   SfBadge,
   SfDropdown,
-  SfIconClose,
-  SfIconLanguage,
   SfIconPerson,
   SfIconSearch,
   SfIconShoppingCart,
-  SfListItem,
-  SfModal,
   SfIconFavorite,
+  SfIconClose,
   useDisclosure,
 } from '@storefront-ui/vue';
 import { paths } from '~/utils/paths';
 import WiMegaMenu from '~/components/ui/WiMegaMeu/WiMegaMenu.vue';
+import WiSearch from '~/components/ui/WiSearch/WiSearch.vue';
+const props = defineProps<{
+  isTransparent?: boolean;
+}>();
 
 const isLogin = ref(true);
 const { data: cart } = useCart();
@@ -194,19 +136,20 @@ const { wishlistItemIds } = useWishlist();
 const cartItemsCount = ref(0);
 
 const NuxtLink = resolveComponent('NuxtLink');
-const { t, localeCodes } = useI18n();
+const { t } = useI18n();
 const route = useRoute();
 const localePath = useLocalePath();
 const { isOpen: isAccountDropdownOpen, toggle: accountDropdownToggle } = useDisclosure();
 const { isOpen: isAuthenticationOpen, open: openAuthentication, close: closeAuthentication } = useDisclosure();
 const { open: searchModalOpen, isOpen: isSearchModalOpen, close: searchModalClose } = useDisclosure();
-const { toggle: toggleLanguageSelect, isOpen: isLanguageSelectOpen } = useLocalization();
 const { data: categoryTree } = useCategoryTree();
 const { data: user, isAuthorized, logout } = useCustomer();
 const viewport = useViewport();
 const runtimeConfig = useRuntimeConfig();
 const showConfigurationDrawer = runtimeConfig.public.showConfigurationDrawer;
 const { isEditing, disableActions } = useEditor();
+
+const isSearchVisible = ref(false);
 
 onNuxtReady(() => {
   cartItemsCount.value = cart.value?.items?.reduce((price, { quantity }) => price + quantity, 0) ?? 0;
@@ -225,6 +168,10 @@ watch(
     isLogin.value = true;
   },
 );
+
+const toggleSearch = () => {
+  isSearchVisible.value = !isSearchVisible.value;
+};
 
 const logOut = async () => {
   accountDropdownToggle();
@@ -255,12 +202,13 @@ const navigateToLogin = () => {
   }
 };
 </script>
+
 <style scoped>
-.fade-overlay-enter-active, .fade-overlay-leave-active {
-  transition: opacity 0.4s ease-in-out, transform 0.3s ease-in-out;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-.fade-overlay-enter-from, .fade-overlay-leave-to {
+.fade-enter-from, .fade-leave-to {
   opacity: 0;
-  transform: scale(1.05);
+  transform: translateY(-10px);
 }
 </style>

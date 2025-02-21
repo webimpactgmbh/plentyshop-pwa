@@ -1,22 +1,24 @@
 <template>
-  <div class="promo-bar flex items-center justify-between bg-gray-200 px-4 py-2 rounded-lg w-full">
+  <div class="promo-bar flex items-center justify-between px-4 py-1 w-full rounded-b-[15px]"
+       :class="[{ 'bg-gray-200': !isTransparent, 'bg-opacity': isTransparent }]">
     <div class="promo-content relative flex items-center justify-between w-full max-w-[600px] mx-auto">
       <span
         @click="navigateBack"
-        class="arrow absolute left-0 inset-y-0 flex items-center justify-center w-10 text-gray-500 hover:text-gray-700 text-lg cursor-pointer">
-        ←
+        class="arrow absolute left-0 inset-y-0 flex items-center justify-center w-10 hover:text-gray-700 text-lg cursor-pointer"
+        :class="[{ 'text-gray-500': !isTransparent, 'text-gray-300': isTransparent }]" ><
       </span>
       <div class="promo-text-wrapper flex justify-center items-center px-12 w-full text-center">
         <transition name="fade" mode="out-in">
-          <span :key="currentMessageIndex" class="promo-text font-medium text-gray-700 text-sm md:text-base">
+          <span :key="currentMessageIndex" class="promo-text font-medium  text-sm md:text-base"
+                :class="[{ 'text-gray-500': !isTransparent, 'text-gray-300': isTransparent }]" >
             {{ displayedMessages[currentMessageIndex] }}
           </span>
         </transition>
       </div>
       <span
         @click="navigateForward"
-        class="arrow absolute right-0 inset-y-0 flex items-center justify-center w-10 text-gray-500 hover:text-gray-700 text-lg cursor-pointer">
-        →
+        class="arrow absolute right-0 inset-y-0 flex items-center justify-center w-10 hover:text-gray-700 text-lg cursor-pointer"
+        :class="[{ 'text-gray-500': !isTransparent, 'text-gray-300': isTransparent }]" >>
       </span>
     </div>
     <WILanguageSelector/>
@@ -27,7 +29,10 @@
 import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import WILanguageSelector from '~/components/ui/WiLanguageSelector/WiLanguageSelector.vue';
 
-const props = defineProps<{ promoMessages: string[] }>();
+const props = defineProps<{
+  promoMessages: string[];
+  isTransparent?: boolean;
+}>();
 
 const defaultMessages = [
   "initial: test1",
@@ -74,12 +79,18 @@ watch(() => props.promoMessages, () => {
   currentMessageIndex.value = 0;
 });
 </script>
-
 <style scoped>
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s ease-in-out;
 }
+
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
+
+.bg-gray-200 {
+  background: #e5e7eb;
+}
+
 </style>
+

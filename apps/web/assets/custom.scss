@@ -1,0 +1,17 @@
+.bg-transparent-header {
+  background: rgba(255, 255, 255, 0);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.bg-white-header {
+  background: rgba(255, 255, 255, 1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.bg-opacity {
+  background: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease-in-out;
+}
+.icon-border {
+  border-radius: 30px;
+}

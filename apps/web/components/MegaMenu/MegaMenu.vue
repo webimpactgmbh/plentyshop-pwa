@@ -1,7 +1,8 @@
 <template>
   <header ref="referenceRef" :class="headerClass" class="relative w-full md:sticky md:shadow-md z-10">
     <div
-      class="flex justify-between items-center flex-wrap md:flex-nowrap px-4 md:px-10 py-2 md:py-5 w-full border-0 bg-primary-500 border-neutral-200"
+      class="flex justify-between items-center flex-wrap md:flex-nowrap px-4 md:px-10 py-2 md:py-5 w-full border-0 border-neutral-200"
+      :class="{'bg-primary-500': !isTransparent, 'bg-transparent': isTransparent}"
       data-testid="navbar-top"
     >
       <div class="flex items-center">
@@ -21,7 +22,7 @@
           :aria-label="t('goToHomepage')"
           class="flex shrink-0 w-full lg:w-48 items-center mr-auto text-white md:mr-10 focus-visible:outline focus-visible:outline-offset focus-visible:rounded-sm"
         >
-          <UiVsfLogo />
+          <UiWiLogo/>
         </NuxtLink>
       </div>
 
@@ -31,7 +32,8 @@
     <div v-if="viewport.isGreaterOrEquals('lg')">
       <nav ref="floatingRef">
         <ul
-          class="flex px-6 py-2 bg-white border-b border-b-neutral-200 border-b-solid"
+          class="flex px-6 py-2 border-b-neutral-200 border-b-solid"
+          :class="{'bg-white': !isTransparent, 'bg-transparent': isTransparent}"
           @blur="
             (event) => {
               if (!(event.currentTarget as Element).contains(event.relatedTarget as Element)) {
@@ -203,8 +205,9 @@ const viewport = useViewport();
 const localePath = useLocalePath();
 const { buildCategoryMenuLink } = useLocalization();
 const NuxtLink = resolveComponent('NuxtLink');
-const props = defineProps<MegaMenuProps>();
-const { close, open, isOpen, activeNode, category, setCategory } = useMegaMenu();
+const props = defineProps<MegaMenuProps & {
+  isTransparent?: boolean;
+}>();const { close, open, isOpen, activeNode, category, setCategory } = useMegaMenu();
 const { referenceRef, floatingRef, style } = useDropdown({
   isOpen,
   onClose: close,
