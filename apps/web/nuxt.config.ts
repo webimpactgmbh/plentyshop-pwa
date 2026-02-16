@@ -20,6 +20,9 @@ export default defineNuxtConfig({
   app: appConfiguration,
   experimental: {
     asyncContext: true,
+    // Verhindert 404 bei "Error fetching app manifest" in Deployment (z. B. PlentyONE),
+    // wo /_nuxt/builds/meta/*.json nicht bereitgestellt wird.
+    appManifest: false,
   },
   appConfig: {
     titleSuffix: process.env.NAME || 'PlentyONE Shop',
@@ -29,6 +32,9 @@ export default defineNuxtConfig({
     dirs: ['~/composables', '~/composables/**', '~/utils/**'],
   },
   vite: {
+    ssr: {
+      noExternal: ['uptain-pwa-beta'],
+    },
     server: {
       fs: {
         allow: ['../../..'], // relative to the current nuxt.config.ts
@@ -40,6 +46,9 @@ export default defineNuxtConfig({
     plugins: [FailOnLargeChunksPlugin],
     optimizeDeps: {
       include: [
+        '@codemirror/lang-css',
+        '@codemirror/lang-javascript',
+        '@codemirror/state',
         '@floating-ui/vue',
         '@intlify/core-base',
         '@intlify/shared',
@@ -49,15 +58,25 @@ export default defineNuxtConfig({
         '@storefront-ui/shared',
         '@storefront-ui/vue',
         '@tanstack/vue-virtual',
+        '@tiptap/extension-color',
+        '@tiptap/extension-highlight',
+        '@tiptap/extension-link',
+        '@tiptap/extension-text-align',
+        '@tiptap/extension-text-style',
+        '@tiptap/extension-underline',
+        '@tiptap/starter-kit',
+        '@tiptap/vue-3',
         '@vee-validate/yup',
         '@vue/devtools-core',
         '@vue/devtools-kit',
         '@vueuse/core',
         '@vueuse/shared',
+        'codemirror',
         'cookie',
         'country-flag-icons/string/3x2',
         'dotenv',
         'drift-zoom',
+        'js-beautify',
         'js-sha256',
         'swiper/modules',
         'swiper/vue',
@@ -85,13 +104,6 @@ export default defineNuxtConfig({
               '@tiptap/extension-text-align',
             ],
             vuetify: ['vuetify', '@mdi/js'],
-            cmmain: ['codemirror'],
-            cmplugins: [
-              'js-beautify',
-              '@codemirror/lang-css',
-              '@codemirror/lang-javascript',
-              '@codemirror/theme-one-dark',
-            ],
           },
         },
       },
@@ -126,7 +138,15 @@ export default defineNuxtConfig({
       cookieGroups: cookieConfig,
       turnstileSiteKey: process.env?.CLOUDFLARETURNSTILEAPISITEKEY ?? '',
       noCache: process.env.NO_CACHE || '',
-      configId: process.env.CONFIG_ID || '',
+      configId: process.env.CONFIG_ID || '1',
+      uptainId: process.env.NUXT_PUBLIC_UPTAIN_ID || 'XXXXXXXXXXXXXXXX',
+      uptainBlockCookiesInitially: process.env.NUXT_PUBLIC_UPTAIN_BLOCK_COOKIES_INITIALLY || 'false',
+      uptainTransmitNewsletterData: process.env.NUXT_PUBLIC_UPTAIN_TRANSMIT_NEWSLETTER_DATA || 'false',
+      uptainTransmitCustomerData: process.env.NUXT_PUBLIC_UPTAIN_TRANSMIT_CUSTOMER_DATA || 'false',
+      uptainTransmitRevenue: process.env.NUXT_PUBLIC_UPTAIN_TRANSMIT_REVENUE || 'false',
+      uptainEnabled: process.env.NUXT_PUBLIC_UPTAIN_ENABLED || '0',
+      uptainCookieGroup: process.env.NUXT_PUBLIC_UPTAIN_COOKIE_GROUP || 'CookieBar.marketing.label',
+      uptainDebugMode: process.env.NUXT_PUBLIC_UPTAIN_DEBUG_MODE || '0',
       ...settingsConfig,
       ...featureFlagsConfig,
     },
@@ -149,6 +169,7 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     'vuetify-nuxt-module',
     'nuxt-color-picker',
+    'uptain-pwa-beta',
   ],
   vuetify: {
     moduleOptions: {
