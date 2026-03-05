@@ -72,3 +72,4 @@ apps/web/._.env
 apps/web/._.output
 packages/shop-cli/._.turbo
 ._.gitignore
+scripts/._spawn-worktree.sh
