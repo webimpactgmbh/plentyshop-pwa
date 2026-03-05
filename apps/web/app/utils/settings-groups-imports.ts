@@ -8,6 +8,10 @@ const customer = import.meta.glob('/node_modules/*/runtime/components/settings/*
   import: 'default',
 }) as Record<string, Loader>;
 
+const rootNodeModules = import.meta.glob('~~/../../node_modules/*/runtime/components/settings/**/*.vue', {
+  import: 'default',
+}) as Record<string, Loader>;
+
 const nuxtModules = import.meta.glob('~~/modules/*/runtime/components/settings/**/*.vue', {
   import: 'default',
 }) as Record<string, Loader>;
@@ -45,6 +49,10 @@ Object.entries(nuxtModules).forEach(([path, loader]) => {
   modules[normalize(path)] = loader;
 });
 Object.entries(customer).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  modules[normalize(path)] = loader;
+});
+Object.entries(rootNodeModules).forEach(([path, loader]) => {
   if (isAppleDouble(path)) return;
   modules[normalize(path)] = loader;
 });

@@ -4,6 +4,10 @@ const localeFilesCustomer = import.meta.glob('/node_modules/*/runtime/components
   eager: true,
   import: 'default',
 }) as Messages;
+const localeFilesRootNodeModules = import.meta.glob('~~/../../node_modules/*/runtime/components/settings/**/lang.json', {
+  eager: true,
+  import: 'default',
+}) as Messages;
 const localeFilesNuxtModules = import.meta.glob('~~/modules/*/runtime/components/settings/**/lang.json', {
   eager: true,
   import: 'default',
@@ -35,6 +39,10 @@ Object.entries(localeFilesNuxtModules).forEach(([path, loader]) => {
   localeFiles[normalize(path)] = loader;
 });
 Object.entries(localeFilesCustomer).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  localeFiles[normalize(path)] = loader;
+});
+Object.entries(localeFilesRootNodeModules).forEach(([path, loader]) => {
   if (isAppleDouble(path)) return;
   localeFiles[normalize(path)] = loader;
 });
