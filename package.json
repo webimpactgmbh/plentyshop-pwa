@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "postinstall": "node ./scripts/postinstall.js && patch-package",
+    "postinstall": "node ./scripts/postinstall.js",
     "update:core": "npm update @plentymarkets/shop-core",
     "update:sdk": "npm update @plentymarkets/shop-api",
     "turbo:disable-telemetry": "turbo telemetry disable",
@@ -69,7 +69,7 @@
     "drift-zoom": "^1.5.1",
     "nuxt-color-picker": "^1.2.8",
     "nuxt-swiper": "^1.2.2",
-    "uptain-pwa-beta": "^1.0.0-beta.1",
+    "uptain-pwa-beta": "^1.0.0-beta.20",
     "vue-multiselect": "^3.4.0",
     "vue-tel-input": "^9.7.1",
     "vue-tsc": "^3.0.6",
@@ -99,7 +99,6 @@
     "nuxt": "4.1.3",
     "nuxt-security": "2.5.1",
     "nuxt-viewport": "^2.3.1",
-    "patch-package": "^8.0.0",
     "playwright-core": "^1.58.2",
     "prettier": "^3.8.1",
     "rimraf": "^5.0.7",

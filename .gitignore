@@ -64,9 +64,6 @@ apps/web/reference/
 *.code-workspace
 *.tsbuildinfo
 
-# patch-package: ignore macOS resource fork files (._*) so they are not applied
-patches/._*
-
 # shop-cli config
 .plentyone/shop-cli.json
 apps/server/._.turbo
