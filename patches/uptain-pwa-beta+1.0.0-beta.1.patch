@@ -77,6 +77,31 @@ new mode 100755
 diff --git a/node_modules/uptain-pwa-beta/runtime/composables/useUptainData.ts b/node_modules/uptain-pwa-beta/runtime/composables/useUptainData.ts
 old mode 100644
 new mode 100755
+index 51fde0c..2516822
+--- a/node_modules/uptain-pwa-beta/runtime/composables/useUptainData.ts
++++ b/node_modules/uptain-pwa-beta/runtime/composables/useUptainData.ts
+@@ -1,3 +1,21 @@
++import {
++  useAddressStore,
++  useCart,
++  useCartShippingMethods,
++  useCategoryFilter,
++  useCategoryTree,
++  useCustomer,
++  useCustomerOrders,
++  useLocalePath,
++  usePaymentMethods,
++  useProducts,
++  useRoute,
++  useRuntimeConfig,
++  useSearch,
++  useSiteSettings,
++  useState,
++  useWishlist,
++} from '#imports';
+ import type { Cart, CartItem, Product, User, Order } from '@plentymarkets/shop-api';
+ import { cartGetters, productGetters, productPropertyGetters, orderGetters, categoryGetters, categoryTreeGetters, tagGetters, shippingProviderGetters, paymentProviderGetters, userAddressGetters, AddressType } from '@plentymarkets/shop-api';
+ 
 diff --git a/node_modules/uptain-pwa-beta/runtime/lang/._de.json b/node_modules/uptain-pwa-beta/runtime/lang/._de.json
 new file mode 100755
 index 0000000..88bc33f
@@ -110,54 +135,55 @@ Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/plugins/._upta
 diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts
 old mode 100644
 new mode 100755
-index 6d59337..39f039c
+index 6d59337..271e4a3
 --- a/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts
 +++ b/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts
-@@ -1,27 +1,33 @@
+@@ -1,27 +1,40 @@
 +import { defineNuxtPlugin, useRuntimeConfig } from 'nuxt/app';
 +
  /**
   * Server-side plugin to register Uptain cookies in the cookie consent manager
   * This plugin runs before the cookie bar is initialized and adds Uptain cookies
   * to the configured cookie group dynamically. Opt-in only (no opt-out mode).
++ * Inlines cookie registration logic so we do not depend on useRegisterCookie auto-import from node_modules.
   */
  export default defineNuxtPlugin(() => {
 -  const runtimeConfig = useRuntimeConfig();
 +  try {
-+    const runtimeConfig = useRuntimeConfig();
++    const runtimeConfig = useRuntimeConfig().public as Record<string, unknown>;
++    type CookieItem = { name?: string };
++    type CookieGroup = { name: string; cookies?: CookieItem[] };
++    const cookieGroups = runtimeConfig?.cookieGroups as { groups?: CookieGroup[] } | undefined;
++    if (!cookieGroups?.groups) return;
  
 -  const configuredCookieGroup =
 -    (runtimeConfig.public.uptainCookieGroup as string | undefined) || 'CookieBar.marketing.label';
 +    const configuredCookieGroup =
-+      (runtimeConfig.public.uptainCookieGroup as string | undefined) || 'CookieBar.marketing.label';
++      (runtimeConfig.uptainCookieGroup as string | undefined) || 'CookieBar.marketing.label';
++    if (!configuredCookieGroup) return;
  
 -  if (!configuredCookieGroup) return;
-+    if (!configuredCookieGroup) return;
++    const targetGroup = cookieGroups.groups.find((g) => g.name === configuredCookieGroup);
++    if (!targetGroup) return;
  
 -  const { add } = useRegisterCookie();
 -  add(
 -    {
--      name: 'CookieBar.uptain.cookies.uptain.name',
--      Provider: 'CookieBar.uptain.cookies.uptain.provider',
--      Status: 'CookieBar.uptain.cookies.uptain.status',
--      PrivacyPolicy: '/PrivacyPolicy',
--      Lifespan: 'CookieBar.uptain.cookies.uptain.lifespan',
--      accepted: false,
++    if (!targetGroup.cookies) targetGroup.cookies = [];
++    const newCookie: CookieItem & Record<string, unknown> = {
+       name: 'CookieBar.uptain.cookies.uptain.name',
+       Provider: 'CookieBar.uptain.cookies.uptain.provider',
+       Status: 'CookieBar.uptain.cookies.uptain.status',
+       PrivacyPolicy: '/PrivacyPolicy',
+       Lifespan: 'CookieBar.uptain.cookies.uptain.lifespan',
+       accepted: false,
 -    },
 -    configuredCookieGroup,
 -  );
-+    const { add } = useRegisterCookie();
-+    add(
-+      {
-+        name: 'CookieBar.uptain.cookies.uptain.name',
-+        Provider: 'CookieBar.uptain.cookies.uptain.provider',
-+        Status: 'CookieBar.uptain.cookies.uptain.status',
-+        PrivacyPolicy: '/PrivacyPolicy',
-+        Lifespan: 'CookieBar.uptain.cookies.uptain.lifespan',
-+        accepted: false,
-+      },
-+      configuredCookieGroup,
-+    );
++    };
++    if (!targetGroup.cookies.some((c) => c.name === newCookie.name)) {
++      targetGroup.cookies.push(newCookie);
++    }
 +  } catch (e) {
 +    console.warn('[uptain-pwa-beta] Cookie registration failed:', e);
 +  }
@@ -202,6 +228,26 @@ index 31fbd8a..00cc679
 diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain.client.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain.client.ts
 old mode 100644
 new mode 100755
+index daaa7d8..25f628e
+--- a/node_modules/uptain-pwa-beta/runtime/plugins/uptain.client.ts
++++ b/node_modules/uptain-pwa-beta/runtime/plugins/uptain.client.ts
+@@ -1,4 +1,15 @@
+-import { defineNuxtPlugin, useRoute } from 'nuxt/app';
++import { defineNuxtPlugin } from 'nuxt/app';
++import {
++  useCookie,
++  useCookieBar,
++  usePlentyEvent,
++  useProducts,
++  useRoute,
++  useRuntimeConfig,
++  useSiteSettings,
++  useState,
++  useWishlist,
++} from '#imports';
+ import { nextTick, watch } from 'vue';
+ import { useUptainData } from '../composables/useUptainData';
+ import { parseWishlistDebugRows, tryParseJson } from '../utils/debugAttributeParsers';
 diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain.ts
 old mode 100644
 new mode 100755
