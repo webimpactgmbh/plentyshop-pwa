@@ -23,6 +23,8 @@ const formatTitle = (folderName: string): string => {
     .join(' ');
 };
 
+const isAppleDouble = (path: string) => path.includes('/._') || path.includes('\\._');
+
 const normalize = (path: string) => {
   const pop = path.split('/settings/').pop();
 
@@ -34,9 +36,18 @@ const normalize = (path: string) => {
 
 const modules: Record<string, Loader> = {};
 
-Object.entries(core).forEach(([path, loader]) => (modules[normalize(path)] = loader));
-Object.entries(nuxtModules).forEach(([path, loader]) => (modules[normalize(path)] = loader));
-Object.entries(customer).forEach(([path, loader]) => (modules[normalize(path)] = loader));
+Object.entries(core).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  modules[normalize(path)] = loader;
+});
+Object.entries(nuxtModules).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  modules[normalize(path)] = loader;
+});
+Object.entries(customer).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  modules[normalize(path)] = loader;
+});
 
 export const getSettingsGroups = (activeSetting: string, subCategory: string = '') => {
   const prefix = subCategory ? `${activeSetting}/${subCategory}/` : `${activeSetting}/`;

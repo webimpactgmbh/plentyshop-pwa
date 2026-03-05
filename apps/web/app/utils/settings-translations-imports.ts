@@ -13,6 +13,8 @@ const localeFilesCore = import.meta.glob('@/components/**/settings/**/lang.json'
   import: 'default',
 }) as Messages;
 
+const isAppleDouble = (path: string) => path.includes('/._') || path.includes('\\._');
+
 const normalize = (path: string) => {
   const pop = path.split('/settings/').pop();
 
@@ -24,9 +26,18 @@ const normalize = (path: string) => {
 
 const localeFiles: Record<string, LocaleMessages> = {};
 
-Object.entries(localeFilesCore).forEach(([path, loader]) => (localeFiles[normalize(path)] = loader));
-Object.entries(localeFilesNuxtModules).forEach(([path, loader]) => (localeFiles[normalize(path)] = loader));
-Object.entries(localeFilesCustomer).forEach(([path, loader]) => (localeFiles[normalize(path)] = loader));
+Object.entries(localeFilesCore).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  localeFiles[normalize(path)] = loader;
+});
+Object.entries(localeFilesNuxtModules).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  localeFiles[normalize(path)] = loader;
+});
+Object.entries(localeFilesCustomer).forEach(([path, loader]) => {
+  if (isAppleDouble(path)) return;
+  localeFiles[normalize(path)] = loader;
+});
 
 export const getSettingsTranslations = () => {
   return localeFiles;
