@@ -1,0 +1,214 @@
+diff --git a/node_modules/uptain-pwa-beta/._README.md b/node_modules/uptain-pwa-beta/._README.md
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/._README.md differ
+diff --git a/node_modules/uptain-pwa-beta/._module.ts b/node_modules/uptain-pwa-beta/._module.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/._module.ts differ
+diff --git a/node_modules/uptain-pwa-beta/._package.json b/node_modules/uptain-pwa-beta/._package.json
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/._package.json differ
+diff --git a/node_modules/uptain-pwa-beta/._runtime b/node_modules/uptain-pwa-beta/._runtime
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/._runtime differ
+diff --git a/node_modules/uptain-pwa-beta/README.md b/node_modules/uptain-pwa-beta/README.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/module.ts b/node_modules/uptain-pwa-beta/module.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/._components b/node_modules/uptain-pwa-beta/runtime/._components
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/._components differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/._composables b/node_modules/uptain-pwa-beta/runtime/._composables
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/._composables differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/._lang b/node_modules/uptain-pwa-beta/runtime/._lang
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/._lang differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/._plugins b/node_modules/uptain-pwa-beta/runtime/._plugins
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/._plugins differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/._utils b/node_modules/uptain-pwa-beta/runtime/._utils
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/._utils differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/components/._settings b/node_modules/uptain-pwa-beta/runtime/components/._settings
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/components/._settings differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/components/settings/._seo b/node_modules/uptain-pwa-beta/runtime/components/settings/._seo
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/components/settings/._seo differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/components/settings/seo/._tracking-and-analytics b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/._tracking-and-analytics
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/._tracking-and-analytics differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/._uptain b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/._uptain
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/._uptain differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/uptain/._UptainSettings.vue b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/uptain/._UptainSettings.vue
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/uptain/._UptainSettings.vue differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/uptain/UptainSettings.vue b/node_modules/uptain-pwa-beta/runtime/components/settings/seo/tracking-and-analytics/uptain/UptainSettings.vue
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/composables/._index.ts b/node_modules/uptain-pwa-beta/runtime/composables/._index.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/composables/._index.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/composables/._useUptainData.ts b/node_modules/uptain-pwa-beta/runtime/composables/._useUptainData.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/composables/._useUptainData.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/composables/index.ts b/node_modules/uptain-pwa-beta/runtime/composables/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/composables/useUptainData.ts b/node_modules/uptain-pwa-beta/runtime/composables/useUptainData.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/lang/._de.json b/node_modules/uptain-pwa-beta/runtime/lang/._de.json
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/lang/._de.json differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/lang/._en.json b/node_modules/uptain-pwa-beta/runtime/lang/._en.json
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/lang/._en.json differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/lang/de.json b/node_modules/uptain-pwa-beta/runtime/lang/de.json
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/lang/en.json b/node_modules/uptain-pwa-beta/runtime/lang/en.json
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/._uptain-cookie-registration.server.ts b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain-cookie-registration.server.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain-cookie-registration.server.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/._uptain-i18n.ts b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain-i18n.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain-i18n.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/._uptain.client.ts b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain.client.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain.client.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/._uptain.ts b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/plugins/._uptain.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts
+old mode 100644
+new mode 100755
+index 6d59337..39f039c
+--- a/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts
++++ b/node_modules/uptain-pwa-beta/runtime/plugins/uptain-cookie-registration.server.ts
+@@ -1,27 +1,33 @@
++import { defineNuxtPlugin, useRuntimeConfig } from 'nuxt/app';
++
+ /**
+  * Server-side plugin to register Uptain cookies in the cookie consent manager
+  * This plugin runs before the cookie bar is initialized and adds Uptain cookies
+  * to the configured cookie group dynamically. Opt-in only (no opt-out mode).
+  */
+ export default defineNuxtPlugin(() => {
+-  const runtimeConfig = useRuntimeConfig();
++  try {
++    const runtimeConfig = useRuntimeConfig();
+ 
+-  const configuredCookieGroup =
+-    (runtimeConfig.public.uptainCookieGroup as string | undefined) || 'CookieBar.marketing.label';
++    const configuredCookieGroup =
++      (runtimeConfig.public.uptainCookieGroup as string | undefined) || 'CookieBar.marketing.label';
+ 
+-  if (!configuredCookieGroup) return;
++    if (!configuredCookieGroup) return;
+ 
+-  const { add } = useRegisterCookie();
+-  add(
+-    {
+-      name: 'CookieBar.uptain.cookies.uptain.name',
+-      Provider: 'CookieBar.uptain.cookies.uptain.provider',
+-      Status: 'CookieBar.uptain.cookies.uptain.status',
+-      PrivacyPolicy: '/PrivacyPolicy',
+-      Lifespan: 'CookieBar.uptain.cookies.uptain.lifespan',
+-      accepted: false,
+-    },
+-    configuredCookieGroup,
+-  );
++    const { add } = useRegisterCookie();
++    add(
++      {
++        name: 'CookieBar.uptain.cookies.uptain.name',
++        Provider: 'CookieBar.uptain.cookies.uptain.provider',
++        Status: 'CookieBar.uptain.cookies.uptain.status',
++        PrivacyPolicy: '/PrivacyPolicy',
++        Lifespan: 'CookieBar.uptain.cookies.uptain.lifespan',
++        accepted: false,
++      },
++      configuredCookieGroup,
++    );
++  } catch (e) {
++    console.warn('[uptain-pwa-beta] Cookie registration failed:', e);
++  }
+ });
+ 
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain-i18n.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain-i18n.ts
+old mode 100644
+new mode 100755
+index 31fbd8a..00cc679
+--- a/node_modules/uptain-pwa-beta/runtime/plugins/uptain-i18n.ts
++++ b/node_modules/uptain-pwa-beta/runtime/plugins/uptain-i18n.ts
+@@ -1,13 +1,21 @@
+-import { defineNuxtPlugin } from 'nuxt/app';
+-import de from '../lang/de.json';
+-import en from '../lang/en.json';
++import { defineNuxtPlugin, useNuxtApp } from 'nuxt/app';
+ 
+-export default defineNuxtPlugin(() => {
+-  const { $i18n } = useNuxtApp();
++export default defineNuxtPlugin(async () => {
++  try {
++    const [deModule, enModule] = await Promise.all([
++      import('../lang/de.json').catch(() => ({ default: {} })),
++      import('../lang/en.json').catch(() => ({ default: {} })),
++    ]);
++    const de = deModule.default || {};
++    const en = enModule.default || {};
++    const { $i18n } = useNuxtApp();
+ 
+-  if ($i18n?.mergeLocaleMessage) {
+-    $i18n.mergeLocaleMessage('de', de);
+-    $i18n.mergeLocaleMessage('en', en);
++    if ($i18n?.mergeLocaleMessage) {
++      if (Object.keys(de).length) $i18n.mergeLocaleMessage('de', de);
++      if (Object.keys(en).length) $i18n.mergeLocaleMessage('en', en);
++    }
++  } catch (e) {
++    console.warn('[uptain-pwa-beta] i18n merge failed:', e);
+   }
+ });
+ 
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain.client.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain.client.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/plugins/uptain.ts b/node_modules/uptain-pwa-beta/runtime/plugins/uptain.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/uptain-pwa-beta/runtime/utils/._debugAttributeParsers.ts b/node_modules/uptain-pwa-beta/runtime/utils/._debugAttributeParsers.ts
+new file mode 100755
+index 0000000..88bc33f
+Binary files /dev/null and b/node_modules/uptain-pwa-beta/runtime/utils/._debugAttributeParsers.ts differ
+diff --git a/node_modules/uptain-pwa-beta/runtime/utils/debugAttributeParsers.ts b/node_modules/uptain-pwa-beta/runtime/utils/debugAttributeParsers.ts
+old mode 100644
+new mode 100755
