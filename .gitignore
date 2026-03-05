@@ -66,3 +66,9 @@ apps/web/reference/
 
 # shop-cli config
 .plentyone/shop-cli.json
+apps/server/._.turbo
+apps/server/._dist
+apps/web/._.env
+apps/web/._.output
+packages/shop-cli/._.turbo
+._.gitignore
