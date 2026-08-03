@@ -84,6 +84,64 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   };
 
+  const UPTAIN_PENDING_SID_RESET_KEY = 'uptain-pending-sid-reset';
+
+  const isSuccessPath = (path: string | undefined | null): boolean =>
+    !!path && path.includes('/confirmation/');
+
+  const markUptainSessionResetPending = () => {
+    try {
+      sessionStorage.setItem(UPTAIN_PENDING_SID_RESET_KEY, '1');
+    } catch {
+      // ignore storage errors
+    }
+  };
+
+  const consumeUptainSessionResetPending = (): boolean => {
+    try {
+      if (sessionStorage.getItem(UPTAIN_PENDING_SID_RESET_KEY) !== '1') return false;
+      sessionStorage.removeItem(UPTAIN_PENDING_SID_RESET_KEY);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  /**
+   * After checkout success, Uptain normally starts a new session on the next page load.
+   * In the PWA there is often no full reload, and __up_sid stays in localStorage forever.
+   * Clear the session id (+ journey history) and allow uptain.js to bootstrap again.
+   */
+  const resetUptainSessionForNewJourney = () => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      localStorage.removeItem('__up_sid');
+      localStorage.removeItem('history_trigger_stack');
+      sessionStorage.removeItem('__up_history_trigger_stack');
+      sessionStorage.removeItem('__up_tid');
+    } catch {
+      // ignore storage errors
+    }
+
+    // Allow the uptain.js loader to run again (guards against duplicate integration)
+    try {
+      delete (window as Window & { __up_stm?: boolean }).__up_stm;
+    } catch {
+      (window as Window & { __up_stm?: boolean }).__up_stm = undefined;
+    }
+
+    // Remove dynamically injected Uptain runtime scripts from the previous session
+    document.querySelectorAll('script[id^="__up_"]').forEach((el) => {
+      if (el.id !== '__up_data_qp') {
+        el.remove();
+      }
+    });
+
+    removeUptainScript();
+    console.log('[Uptain] Cleared __up_sid after success – next script load starts a new session');
+  };
+
   const logScriptData = (script: HTMLElement | null) => {
     if (typeof window === 'undefined' || !window.__UPTAIN_DEBUG__) return;
     if (!script) return;
@@ -609,6 +667,12 @@ export default defineNuxtPlugin((nuxtApp) => {
       console.log('[Uptain] Sync - Enabled:', enabled, 'ID set:', !!uptainId, 'Should block:', shouldBlock, 'Has consent:', hasConsent);
 
       if (enabled && uptainId && (!shouldBlock || hasConsent)) {
+        // Hard reload after success (still same tab): regenerate session before bootstrapping
+        if (!isSuccessPath(route.path) && consumeUptainSessionResetPending()) {
+          resetUptainSessionForNewJourney();
+        } else if (isSuccessPath(route.path)) {
+          markUptainSessionResetPending();
+        }
         await loadUptainScript();
       } else {
         removeUptainScript();
@@ -688,7 +752,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     // Watch for route changes to update data
     watch(
       () => route.path,
-      async () => {
+      async (toPath, fromPath) => {
         const enabled = isSettingEnabled(getUptainEnabled());
         const uptainId = getValidUptainId();
         if (!enabled || !uptainId) {
@@ -696,6 +760,18 @@ export default defineNuxtPlugin((nuxtApp) => {
           return;
         }
         if (!shouldBlockCookies() || checkCookieConsent()) {
+          // Leaving success page (SPA navigation): start a fresh Uptain session
+          if (isSuccessPath(fromPath) && !isSuccessPath(toPath)) {
+            markUptainSessionResetPending();
+          }
+          if (isSuccessPath(toPath)) {
+            markUptainSessionResetPending();
+          } else if (consumeUptainSessionResetPending()) {
+            resetUptainSessionForNewJourney();
+            await loadUptainScript();
+            return;
+          }
+
           let product = getProductFromState();
           // On product page: wait for product so we don't overwrite with null (product loads async)
           if (route.path.includes('/product/') && (!product || Object.keys(product).length === 0)) {
