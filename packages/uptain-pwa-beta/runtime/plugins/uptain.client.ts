@@ -26,7 +26,7 @@ import type { UptainContext } from '../types/uptain-context';
 import { parseWishlistDebugRows, tryParseJson } from '../utils/debugAttributeParsers';
 import { useProduct } from '~/composables/useProduct/useProduct';
 import { createProductParams } from '~/utils/productHelper';
-import { productGetters } from '@plentymarkets/shop-api';
+import { cartGetters, productGetters } from '@plentymarkets/shop-api';
 import type { Cart } from '@plentymarkets/shop-api';
 import type { CookieGroup } from '@plentymarkets/shop-core';
 
@@ -852,11 +852,18 @@ export default defineNuxtPlugin((nuxtApp) => {
       );
 
       const getCartSignature = (cart: Cart | undefined) => {
-        if (!cart?.items?.length) return '';
-        return cart.items
-          .map((i: { id?: number; variationId?: number; quantity?: number }) => `${i?.id ?? i?.variationId ?? ''}:${i?.quantity ?? 0}`)
-          .sort()
-          .join('|');
+        if (!cart) return '';
+        const itemsSignature = Array.isArray(cart.items) && cart.items.length > 0
+          ? cart.items
+              .map((i: { id?: number; variationId?: number; quantity?: number }) => `${i?.id ?? i?.variationId ?? ''}:${i?.quantity ?? 0}`)
+              .sort()
+              .join('|')
+          : '';
+        // Include coupon so apply/remove updates Uptain data without navigation
+        const couponCode = cartGetters.getCouponCode(cart) || '';
+        const couponDiscount = cartGetters.getCouponDiscount(cart) || 0;
+        const basketNet = cartGetters.getBasketAmountNet(cart) || 0;
+        return `${itemsSignature}#${couponCode}:${couponDiscount}:${basketNet}`;
       };
 
       let lastCartSignature = getCartSignature(cartState.value?.data);
@@ -869,6 +876,20 @@ export default defineNuxtPlugin((nuxtApp) => {
         lastCartSignature = signature;
         void refreshScriptDataAndNotifyUptain(cart ?? undefined);
       }, CART_POLL_INTERVAL_MS);
+
+      // Immediately refresh when coupon is applied/removed (do not wait for poll interval)
+      watch(
+        () => {
+          const cart = cartState.value?.data;
+          if (!cart) return '';
+          return `${cartGetters.getCouponCode(cart) || ''}:${cartGetters.getCouponDiscount(cart) || 0}`;
+        },
+        (next, prev) => {
+          if (next === prev) return;
+          lastCartSignature = getCartSignature(cartState.value?.data);
+          void refreshScriptDataAndNotifyUptain(cartState.value?.data ?? undefined);
+        },
+      );
 
       // Function to update product data in script
       const updateProductDataInScript = async (product: any) => {
