@@ -1,0 +1,16 @@
+{
+  "CookieBar": {
+    "uptain": {
+      "cookies": {
+        "uptain": {
+          "name": "Uptain Tracking",
+          "provider": "Uptain GmbH",
+          "status": "Erforderlich für das Uptain Tracking und die Personalisierung von Newsletter-Popups.",
+          "status.optOut": "Opt-out Cookie für Uptain Tracking. Wird gesetzt, wenn der Nutzer das Tracking deaktiviert.",
+          "lifespan": "365 Tage"
+        }
+      }
+    }
+  }
+}
+

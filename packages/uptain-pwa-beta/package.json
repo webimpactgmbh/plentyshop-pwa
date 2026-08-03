@@ -1,0 +1,48 @@
+{
+  "name": "uptain-pwa-beta",
+  "version": "1.0.0-beta.28",
+  "description": "Uptain tracking and personalization module for PlentyONE / Plentyshop PWA (Nuxt 3)",
+  "type": "module",
+  "main": "./module.ts",
+  "types": "./module.ts",
+  "exports": {
+    ".": {
+      "types": "./module.ts",
+      "import": "./module.ts",
+      "require": "./module.ts"
+    }
+  },
+  "files": [
+    "module.ts",
+    "runtime",
+    "README.md",
+    ".env.example"
+  ],
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "uptain",
+    "plentyshop",
+    "plentyone",
+    "pwa",
+    "tracking"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thayamo/uptain-pwa-beta.git"
+  },
+  "peerDependencies": {
+    "nuxt": ">=3.0.0",
+    "@plentymarkets/shop-api": ">=0.100.0",
+    "@plentymarkets/shop-core": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@plentymarkets/shop-api": {
+      "optional": false
+    },
+    "@plentymarkets/shop-core": {
+      "optional": false
+    }
+  }
+}
