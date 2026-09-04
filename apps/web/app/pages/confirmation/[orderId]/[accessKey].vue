@@ -57,9 +57,6 @@ const createParams = (type?: string, value?: string) => {
 
 const tryLoadInitialOrder = async (type?: string, value?: string) => {
   const params = createParams(type, value);
-  // Reset shared soft-login state from a previous confirmation visit.
-  data.value = null;
-  error.value = null;
 
   try {
     if (import.meta.client) {
