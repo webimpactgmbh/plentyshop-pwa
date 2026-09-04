@@ -1,2 +1,0 @@
-export { useUptainData } from './useUptainData';
-
