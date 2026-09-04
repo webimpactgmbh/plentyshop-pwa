@@ -71,6 +71,9 @@ apps/web/reference/
 # shop-cli config
 .plentyone/shop-cli.json
 
+# Uptain PWA module (generated on nuxt prepare / dev / build)
+apps/web/modules/uptain
+
 # copilot experiments
 .github/agents/experimental-*.md
 .github/instructions/experimental-*.instructions.md

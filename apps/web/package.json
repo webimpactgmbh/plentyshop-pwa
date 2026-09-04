@@ -33,12 +33,12 @@
     "@nuxt/fonts": "^0.14.0",
     "@plentymarkets/tailwind-colors": "^1.0.1",
     "@types/js-beautify": "^1.14.3",
+    "@uptain-gmbh/uptain-pwa": "^1.0.5",
     "@vueuse/core": "^14.3.0",
     "axios": "^1.16.0",
     "codemirror": "^6.0.2",
     "js-beautify": "^1.15.4",
     "nuxt-lazy-hydrate": "^1.0.0",
-    "uptain-pwa-beta": "*",
     "uuid": "^13.0.1"
   },
   "devDependencies": {
