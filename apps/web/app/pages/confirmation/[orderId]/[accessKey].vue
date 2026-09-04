@@ -1,17 +1,17 @@
 <template>
-  <NuxtLazyHydrate when-visible>
-    <template v-if="data">
-      <ConfirmationPageContent :order="data" />
-    </template>
-  </NuxtLazyHydrate>
-  <NuxtLazyHydrate when-visible>
-    <template v-if="error">
-      <SoftLogin :error="error" @submit="tryLoadAfterSoftLogin" />
-    </template>
-  </NuxtLazyHydrate>
+  <div v-if="loading || initialLoadPending" class="flex justify-center py-20">
+    <SfLoaderCircular size="2xl" />
+  </div>
+  <template v-else-if="data">
+    <ConfirmationPageContent :order="data" />
+  </template>
+  <template v-else-if="error">
+    <SoftLogin :error="error" @submit="tryLoadAfterSoftLogin" />
+  </template>
 </template>
 
 <script setup lang="ts">
+import { SfLoaderCircular } from '@storefront-ui/vue';
 import type { OrderSearchParams } from '@plentymarkets/shop-api';
 import type { Locale } from '#i18n';
 
@@ -20,19 +20,14 @@ defineI18nRoute({
 });
 
 const route = useRoute();
-const { data, error, fetchOrder, fetchOrderClient } = useCustomerOrder('soft-login');
+const { data, error, loading, fetchOrder, fetchOrderClient } = useCustomerOrder('soft-login');
 const { send } = useNotification();
+const initialLoadPending = ref(false);
 
 definePageMeta({
   pageType: 'static',
+  skipBlocksFetch: true,
 });
-
-if (error.value) {
-  send({
-    type: 'warning',
-    message: error.value.error.message,
-  });
-}
 
 watch(
   () => error.value,
@@ -62,7 +57,19 @@ const createParams = (type?: string, value?: string) => {
 
 const tryLoadInitialOrder = async (type?: string, value?: string) => {
   const params = createParams(type, value);
-  await fetchOrder(params);
+  // Reset shared soft-login state from a previous confirmation visit.
+  data.value = null;
+  error.value = null;
+
+  try {
+    if (import.meta.client) {
+      await fetchOrderClient(params);
+      return;
+    }
+    await fetchOrder(params);
+  } finally {
+    initialLoadPending.value = false;
+  }
 };
 
 const tryLoadAfterSoftLogin = async (type?: string, value?: string) => {
@@ -70,5 +77,15 @@ const tryLoadAfterSoftLogin = async (type?: string, value?: string) => {
   await fetchOrderClient(params);
 };
 
-await tryLoadInitialOrder();
+// SSR: await so the order is in the HTML payload.
+if (import.meta.server) {
+  await tryLoadInitialOrder();
+}
+
+// Client-only navigation fallback: keep setup sync, fetch after mount.
+onMounted(() => {
+  if (data.value || error.value) return;
+  initialLoadPending.value = true;
+  void tryLoadInitialOrder();
+});
 </script>

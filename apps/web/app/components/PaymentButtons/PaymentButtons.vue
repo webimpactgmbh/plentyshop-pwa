@@ -244,7 +244,16 @@ const handleRegularOrder = async () => {
   if (data?.order?.id) {
     emit('frontend:orderCreated', data);
     clearCartItems();
-    return navigateTo(localePath(paths.confirmation + '/' + data.order.id + '/' + data.order.accessKey));
+    const confirmationPath = localePath(
+      `${paths.confirmation}/${data.order.id}/${data.order.accessKey}`,
+    );
+    // Full reload: SPA navigation can update the URL while Nuxt Suspense still
+    // keeps the checkout page visible until the confirmation setup finishes.
+    if (import.meta.client) {
+      window.location.assign(confirmationPath);
+      return;
+    }
+    return navigateTo(confirmationPath);
   } else {
     await useCartStockReservation().unreserve();
     processingOrder.value = false;
